@@ -12,22 +12,30 @@
 \renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
 
 
-\title{Title} % Title
+\title{Authorization} % Title
 
-\author{John \textsc{Smith}} % Author name
+\author{Simon \textsc{Gwerder}\\Tobias \textsc{Stauber}} % Author name
 
 \date{\today} % Date for the report
 
 \begin{document}
-
-\maketitle % Insert the title, author and date
-
-
-\section{Summary}
-
-\section{Context}
-
-\section{Problem}
+	
+	\maketitle % Insert the title, author and date
+	
+	
+	\section{Summary}
+	
+	\section{Context}
+	Einsatz bei sicherheitskritischen Ressourcen, auf die nicht jeder Benutzer oder Prozess beliebig Zugriff erhalten soll.
+	
+	\section{Problem}
+	Aus Gründen der Vertraulichkeit oder Integrität. ist es manchmal wünschenswert, dass Ressourcen für bestimmte Benutzer oder Prozesse nicht frei verfügbar sind. Folgende Probleme müssen angegangen werden:\\
+	\begin{itemize}{}{ }
+		\item Die aktiven Benutzer und Prozess müssen Unterschieden werden können.
+		\item Die Authorization muss unabhängig von den Ressourcen sein.
+		\item Die Authorization sollte flexibel im Umgang mit Subjekten, Objekten und Rechten sein.
+		\item Die Rechte von Benutzern und Prozessen sollen einfach modifiziert werden können.
+	\end{itemize}
 
 \section{Solution}
 
