@@ -1,0 +1,67 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[swissgerman]{babel}
+\usepackage[left=2cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, graphicx,fancyhdr, hyperref, lscape, pdflscape, tabularx, ragged2e, titlesec}
+\linespread{1.5}
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+\title{Role Based Access Control} % Title
+
+\author{Felix \textsc{Morgner}\\Ueli \textsc{Bosshard}} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\section{Summary}
+Dieses Pattern beschreibt wie man in einem komplexen System mit vielen Benutzern, den Zugriff auf Resourcen klären kann. Die Zuweisung der Berechtigungen erfolgt auf Grund der Funktionen oder Aufgaben, welche einem Benutzer (z.B. einem Angestellten oder einem Subsystem) zugewiesen sind.
+
+\section{Context}
+Das Pattern setzt auf dem Context des Authorization Patterns auf. Zusätzlich existieren eine grosse Menge von Resourcen und Benutzern, deren Berechtigungen verwaltet werden müssen.
+
+\section{Problem}
+Die Verwaltung von Berechtigungen in einem grossen System ist mit grossem Aufwand verbunden. Da viele Benutzer und viele Resourcen existieren, gestalltet sich das verteilen von Berechtigugen als zeitaufwändige, monotone und dadurch fehleranfällige Arbeit (Copy-Paste-Fehler). Noch schlimmer wird es, wenn es zu häufigen Änderungen in den Anforderungen der Benutzern kommt. Oftmals haben unterschiedliche Benutzer jedoch ähnliche bis identische Anforderungen um ihre Aufgaben erfüllen zu können.
+
+\section{Solution}
+Häufig ist es der Fall, dass sich Angestellte oder andere Benutzer, auf Grund ihrer Arbeitstelle oder Aufgaben, gruppieren lassen. Diese Gruppierung entspricht dem Need-to-know-Prinzip (jeder Benutzer kann oder weiss nur das was er zur Erfüllung seiner Aufgaben benötigt). Wir machen uns diese Eingenschaft zu Nutze, in dem wir Rollen definieren welche Anforderungsbezogene Berechtigungen zusammen fassen. Ein Benutzer kann dann in einer oder mehreren dieser Rollen auftreten. Somit müssen nicht mehr auf Benutzerebene einzelne Berechtigungen vergeben werden.
+
+\section{Consequences}
+
+\begin{itemize}
+  \item Reduktion des administrativen Aufwands, da es weniger Rollen als Benutzer gibt. Es gibt keine riesigen Berechtigungslisten mehr.
+  \item Es entsteht eine bessere Abbildung der Unternehmensstruktur auf die Vergabe von Rechten anhand der Rollen.
+  \item Personalfluktuationen sind leicht erfassbar, da nicht mehr viele Regeln sondern nurnoch die Zuteilung zu Rollen geändert werden muss.
+  \item Das Pattern erlaubt eine Delegation der Administration von Rollen.
+  \item Es wird grosse Disziplin eine saubere Struktur benöigt um sinvolle Rollen festzulegen.
+  \item es entsteht eine zusätzliche Abstraktionsebene.
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+\item Windows-Benutzerverwaltung / AD
+\item SELinux
+\item PostgreSQL
+\item Branchenlösungen, Bsp. SAP
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item COMPOSITE
+  \item AUTHORIZATION
+  \item ROLE
+  \item ABSTRACT SESSION
+\end{itemize}
+
+\bibliographystyle{apalike}
+
+\bibliography{sample}
+
+\end{document}
