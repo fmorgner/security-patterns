@@ -5,7 +5,6 @@
 \usepackage[swissgerman]{babel}
 \usepackage[left=2cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
 \usepackage{amsmath, amsfonts, amssymb, graphicx,fancyhdr, hyperref, lscape, pdflscape, tabularx, ragged2e, titlesec}
-\linespread{1.5}
 
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
@@ -41,6 +40,8 @@
 \section{Solution}
 Jeder Subject (User, Prozess, usw.) zu Protection Object Verbindung ist ein Recht-Objekt zuweisen, welches ZugriffsTypen und ZugriffsRechte verwaltet und auch die Rechte beim Zugriff überprüft.
 
+\begin{samepage}
+\begin{verbatim}
  (User, Prozesse, ...)           (Resourcen wie File, DB, ...)
  .---------.                       .-------------------.
  | Subject |                       | Protection Object |
@@ -58,6 +59,8 @@ Jeder Subject (User, Prozess, usw.) zu Protection Object Verbindung ist ein Rech
                | checkRights |
                '-------------'
 
+\end{verbatim}
+\end{samepage}
 
 \section{Consequences}
 Es kann viel Aufwand kosten alle Rechte immer richtig zu vergeben. Dies ist vorallem bei grösseren Organisationen nicht zu unterschätzen. Zudem sind viele dieser Recht-Objekte zu verwalten und zu speichern.
