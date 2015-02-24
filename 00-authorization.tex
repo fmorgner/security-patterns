@@ -24,6 +24,7 @@
 	
 	
 	\section{Summary}
+  Berschreibt für jede Entität einzeln, wie (lesend, schreibend, ausführend) auf welche Ressource zugegriffen werden darf.
 	
 	\section{Context}
 	Einsatz bei sicherheitskritischen Ressourcen, auf die nicht jeder Benutzer oder Prozess beliebig Zugriff erhalten soll.
@@ -38,12 +39,36 @@
 	\end{itemize}
 
 \section{Solution}
+Jeder Subject (User, Prozess, usw.) zu Protection Object Verbindung ist ein Recht-Objekt zuweisen, welches ZugriffsTypen und ZugriffsRechte verwaltet und auch die Rechte beim Zugriff überprüft.
+
+ (User, Prozesse, ...)           (Resourcen wie File, DB, ...)
+ .---------.                       .-------------------.
+ | Subject |                       | Protection Object |
+ |---------| * Authorization_rule *|-------------------|
+ | id      |----------.------------| id                |
+ |---------|          |            |-------------------|
+ '---------'          |            '-------------------'
+               .------'------.
+               | Right       |
+               |-------------|
+               | access_type |
+               | predicate   |
+               | copy_flag   |
+               |-------------|
+               | checkRights |
+               '-------------'
+
 
 \section{Consequences}
+Es kann viel Aufwand kosten alle Rechte immer richtig zu vergeben. Dies ist vorallem bei grösseren Organisationen nicht zu unterschätzen. Zudem sind viele dieser Recht-Objekte zu verwalten und zu speichern.
+
 
 \section{Known Uses}
+Ein gutes Beispiel ist die Zugriffsrechtsverwaltung in einem Betriebssystem.
+Oder auch in einer Datenbank oder einer Firewall. Jedoch sind zumeist Patterns eingesetzt, welche auf diesem Aufbauen.
 
 \section{Relationships}
+Das Pattern steht in einer engen Beziehung zum Role-Based Access Control Pattern.
 
 \bibliographystyle{apalike}
 
