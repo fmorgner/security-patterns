@@ -1,0 +1,42 @@
+\chapter{Multi Level Security}
+
+\section{Summary}
+Dieses Pattern beschreibt, wie man sensible Daten kategorisieren kann um ihre Veröffentlichung zu verhindern. Zur Verwaltung des Zugriffs werden den Benutzern des Systems Freigaben (clearances) und den Dokumenten Klassifikationen (classifications) zugeteilt.
+
+\section{Context}
+Wir befinden uns in einer Umgebung welcher es Resourcen gibt deren Veröffentlichung zu grossen Problemen führen könnte (z.B Übernahmeplan) und welche speziell geschützt werden müssen.
+
+\section{Problem}
+In oben genanntem Kontext ist es extrem wichtig, dass keine der besonders schützenswerten Daten exfiltriert werden können. Will man dieses Problem lösen, müssen folgende Anforderungen erfüllt werden:
+
+\begin{itemize}
+  \item Die Vertraulichkeit der Daten muss aufgrund ihrer Sensibilität geschützt werden
+  \item Benutzer müssen in der Lage sein, Dokumente für welche sie, auf Grund von Rang oder Arbeitsposition, autorisiert sind zu lesen
+  \item Es muss möglich sein, die Erlaubniss-Stufen von Benutzern zu ändern, damit sie bei Beförderung oder Degradierung nur die für sie bestimmten Dokumente lesen können.
+\end{itemize}
+
+\section{Solution}
+Benutzern und Daten werden Klassen (clearance bei Benutzern, classification bei Daten) zugewiesen. Bekannte Beispiele für Klassifikationen von Daten sind "Geheim", "Streng Geheim", etc. Bei Benutzern bietet sich ein Gruppen- oder Rollenbasiertes Modell an (siehe RBAC). Die Vertraulichkeit von Daten wird duch Richtlinen, wie im Bell-LaPadula-Modell definiert, sichergestellt. Integrität von Daten wird mitttels Biba-Modell Richtlinen sichergestellt. Ein vertrauenwürdiger Prozess stellt die Einhaltung der Richtlinen sicher und ist für die Klassifikation von Daten und Nutzern zuständig.
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Oft können vorhandene Organisationsrichtlinen zur Klassifikation verwendet werden.}
+    \pro{MLS erlaubt einen höheren Grad von Isolation.}
+    \con{Es wird ein vertrauenwürdiger Prozess für die Verwaltung benötigt.}
+    \con{Es muss möglich sein Daten hierarchisch und Benutzer in Freigaben zu strukturieren.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item SELinux
+  \item Datenbanken
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item REFERENCE MONITOR
+  \item ROLE BASED ACCESS CONTROL
+\end{itemize}
+
+\end{document}
+

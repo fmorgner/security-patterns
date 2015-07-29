@@ -23,7 +23,10 @@
 \setlength\parindent{0pt}
 
 \renewcommand{\labelenumi}{\alph{enumi}.}
+
 \newcommand{\inputChapter}[1]{\input{__src/chapters/#1}}
+\newcommand{\pro}[1]{\item [pro]#1}
+\newcommand{\con}[1]{\item [con]#1}
 
 \title{Security Patterns - HS2015}
 
@@ -37,5 +40,6 @@
 
 \inputChapter{00-authorization}
 \inputChapter{01-role_based_access_control}
+\inputChapter{02-multi_level_security}
 
 \end{document}

@@ -21,20 +21,20 @@ Häufig ist es der Fall, dass sich Angestellte oder andere Benutzer, auf Grund i
 \section{Consequences}
 
 \begin{itemize}
-  \item Reduktion des administrativen Aufwands, da es weniger Rollen als Benutzer gibt. Es gibt keine riesigen Berechtigungslisten mehr.
-  \item Es entsteht eine bessere Abbildung der Unternehmensstruktur auf die Vergabe von Rechten anhand der Rollen.
-  \item Personalfluktuationen sind leicht erfassbar, da nicht mehr viele Regeln sondern nurnoch die Zuteilung zu Rollen geändert werden muss.
-  \item Das Pattern erlaubt eine Delegation der Administration von Rollen.
-  \item Es wird grosse Disziplin eine saubere Struktur benöigt um sinvolle Rollen festzulegen.
-  \item es entsteht eine zusätzliche Abstraktionsebene.
+    \pro{Reduktion des administrativen Aufwands, da es weniger Rollen als Benutzer gibt. Es gibt keine riesigen Berechtigungslisten mehr.}
+    \pro{Es entsteht eine bessere Abbildung der Unternehmensstruktur auf die Vergabe von Rechten anhand der Rollen.}
+    \pro{Personalfluktuationen sind leicht erfassbar, da nicht mehr viele Regeln sondern nurnoch die Zuteilung zu Rollen geändert werden muss.}
+    \pro{Das Pattern erlaubt eine Delegation der Administration von Rollen.}
+    \con{Es wird grosse Disziplin und eine saubere Struktur benötigt um sinvolle Rollen festzulegen.}
+    \con{es entsteht eine zusätzliche Abstraktionsebene.}
 \end{itemize}
 
 \section{Known Uses}
 \begin{itemize}
-\item Windows-Benutzerverwaltung / Active Directory
-\item SELinux
-\item PostgreSQL
-\item Branchenlösungen, Bsp. SAP
+  \item Windows-Benutzerverwaltung / Active Directory
+  \item SELinux
+  \item PostgreSQL
+  \item Branchenlösungen, Bsp. SAP
 \end{itemize}
 
 \section{Relationships}
