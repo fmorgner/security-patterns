@@ -1,0 +1,50 @@
+\chapter{Security Session}
+
+\section{Summary}
+Um die Verifikation von Rechten in einem System zu erleichtern, wird jedem Benutzer eine Session zugeordnet. Dadurch muss der Benutzer nicht immer wieder authentisiert werden, und alle Anfragen betreffend Berechtigungen werden an seine Session gestellt.
+
+\section{Context}
+Wir betrachten ein System mit mehreren Benutzern. Die Komponenten des Systems brauchen eine Moeglichkeit um sie die Sicherheitsdaten welche mit einem Benutzer assoziiert sind zu teilen.
+
+\section{Problem}
+Computersysteme werden im Normalfall von verschiedenen Benutzern verwendet. Es ist wichtig, sicher zu stellen, dass ein Benutzer nur auf Bereiche (Files, Prozesse, etc.) Zugriff hat, fuer welche er Berechtigungen besitzt. Deshalb muss ein Benutzer identifiziert und authentisiert werden. Wenn jede Resource im System den Benutzer einzeln authentisieren wuerde waere das nervig und aufwendig. In einem Web-Shop will man zum Beispiel einen eigenen "Einkaufswagen" haben und sich nicht andauernd neu anmelden muessen wenn man ein weiteres Produkt in den Wagen legt. HTTP ist aber stateless und kann somit diese Session verwaltung nicht uebernehmen. Man will auch, dass die verwendeten Credentials vergessen werden, wenn die Transaktion beendet ist.
+
+\section{Solution}
+Wir erschaffen ein SESSION Objekt, in welchem alle mit dem Benutzer assoziierten Daten (besonders sicherheitsrelevante Daten) gespeichert werden. Jede Aktion welche der Benutzer durchfuehrt wird mit seiner SESSION assoziiert. Meistens wird am CHECK POINT des Systems die SESSION aufgebaut. Zusaetzlich zu sicherheitsrelevanten Daten, koennen Programme eigene Daten in dem SESSION Objekt speichern. Diese Daten koenne Programme nutzen um Daten untereinander auszutauschen, welche zu der momentanen SESSION des Benutzers gehoeren. Meistens wird ein MANAGER eingesetz um die SESSIONs zu verwalten.
+
+\subsection{Implementation}
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{10-security_session-class-diagram}
+  \caption{Strukturdiagramm f\"ur Check Point}
+\end{figure}
+
+\begin{enumerate}
+  \item Ein SESSION Objekt erzeugen, welches die Berechtigungen, die Identifikation und moeglicher Weisse die Rolle des Benutzers speichert (ROLE BASED ACCESS CONTROL). Es kann nuetzlich sein auch Timestamps und weitere Daten zu speichern, welche zur Verarbeitung der Session benoetigt werden. Eine Moeglichkeit die Erweiterbarkeit sicherzustellen ist es, fuer zusaetzliche Daten PROPERTY LIST zu verwenden.
+  \item Einen Manager einfuehren, welcher die SESSION des Benutzers verwaltet. Zusaetzlich werden Session-Identifiers benoetigt, um die SESSIONs eindeutig identifizieren zu koennen.
+  \item Festlegen von Time-Outs. Eine SESSION sollte nach einer gewissen Zeit ablaufen, um so zu verhindern, dass sie von "Fremden" benutzt werden oder zuviel Speicher benutzt wird. Der Manager soltle die SESSIONs regelmaessig aufraeumen.
+  \item Festlegen von Reauthentication-Time-Outs. Der MANAGER sollte den Benutzer dazu zwingen, sich regelmaessig erneut beim CHECK POINT anzumelden wenn die SESSION von laengerer Dauer ist. Damit wird verhindert, das eine offene SESSION missbraucht wird.
+    Erlaube dem Benutzer, sich am CHECK POINT an- und abzumelden.
+\end{enumerate}
+
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Es gibt genau einen Ort an welchem sicherheitsrelevante Daten gespeichert werden. => Das System muss nur die SESSION weiterreichen.}
+    \pro{Das Session Objekt kann erweitert werden ohne die restlichen System-Komponenten zu beeinflussen.}
+    \pro{SESSION Objekte koenne gecached werden.}
+    \pro{Es ist leicht festzustellen, ob die gleichen Credentials mehrfach gleichzeitig verwendet werden.}
+    \con{Es muss geprueft werden, ob man aus Versehen eine versteckte Kopplung einfuehrt.}
+    \con{SESSION Objekte muessen regelmaessig abgeraeumt werden.}
+    \con{In einem verteilten System koennen Session-Identifiers gefaelscht werden. => Es muss sichergestellt werden, dass die Identifiers nicht leicht zu erraten sind.}
+    \con{Bei der Verwendung von Cookies muss sichergestellt werden, dass die Cookies verschluesselt und signiert sind.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item Cookies
+  \item UNIX und Windows
+  \item SSL
+\end{itemize}
+

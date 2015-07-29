@@ -1,0 +1,56 @@
+\chapter{Check Point}
+
+\section{Summary}
+Im Allgemeinen jedes System, welches vor unberechtigtem Zugriff geschützt werden muss. (Das schliesst z.B. Single Access Point mit ein)
+
+\section{Context}
+Wenn man ein System schützt, ist es oftmals von Interesse mehrere mögliche Arten der Zugangskontrolle zu haben. Kleine Änderungen wie neue I\&A Möglichkeiten sollten einfach implementierbar sein. Grosse Änderungen wie das Austauschen von kompletten SAP sollten möglich sein. Zum Beispiel kann ein Entwickler während dem Entwickeln und Testen keine Authentisierung am laufen haben, jedoch müssen im Betrieb User authentisiert und autorisiert werden. Dies kann durch austauschen dieses Software-Blocks erreicht werden. Wie kann also eine Architektur errichtet werden, welche es ermöglicht das System effektiv zu schützen und dabei die Möglichkeit der effizienten Modifikation an der I\&A aufrecht zu erhalten und das ohne Beeinträchtigung der Sicherheit.
+
+\section{Problem}
+Die Lösung besteht daraus das Strategy Pattern auf SAP anzuwenden, damit das Verhalten des SAP verändert werden kann. Check Point definiert somit die Schnittstelle zwischen dem SAP und den einzelnen I\&A Implementationen. Check Point kann neben I\&A auch noch weitere Features bereitstellen z.B. das direkte starten einer Security-Session, das loggen von (Sicherheitsrelevanten) Aktionen, oder auch das Detektieren von Angriffsmustern bei wiederholten unberechtigten Zugriffsversuchen. Ein gutes Beispiel dafür sind die Pluggable Authentication Modules (PAM) in Linux welche es ermöglichen die Art der Authentisierung durch simples Austauschen von Modulen zu ändern.
+
+\section{Solution}
+Die Lösung besteht daraus das Strategy Pattern auf SAP anzuwenden, damit das Verhalten des SAP verändert werden kann. Check Point definiert somit die Schnittstelle zwischen dem SAP und den einzelnen I\&A Implementationen. Check Point kann neben I\&A auch noch weitere Features bereitstellen z.B. das direkte starten einer Security-Session, das loggen von (Sicherheitsrelevanten) Aktionen, oder auch das Detektieren von Angriffsmustern bei wiederholten unberechtigten Zugriffsversuchen. Ein gutes Beispiel dafür sind die Pluggable Authentication Modules (PAM) in Linux welche es ermöglichen die Art der Authentisierung durch simples Austauschen von Modulen zu ändern.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{09-check_point-class-diagram}
+  \caption{Strukturdiagramm f\"ur Check Point}
+\end{figure}
+
+\section{Implementation}
+Folgende Aufgaben müssen erledigt werden:
+
+\begin{itemize}
+  \item Interface für CheckPoint definieren
+  \item Den "entry check" am single entry point implementieren
+  \item Ein Konfigurationsmechanismus für den konkreten CheckPoint zur Verfügung stellen
+  \item Konkrete CheckPoints implementieren
+  \item Umgang mit Client Fehlern definieren
+  \item Stelle eine API für den CheckPoint zur Verfügung
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Die I\&A ist unabhängig von dem Rest der Software, dies ist in der Entwicklungsphase sehr wichtig.}
+    \pro{Die Implementierung der sicherheitstechnischen Abläufe können separat getestet werden.}
+    \pro{Die Art der Authentisierung kann schnell und mit geringem Aufwand verändert werden (z.B. Password $\to$ Smartcard)}
+    \con{Check Point Implementationen sind sicherheitskritisch und müssen entsprechend entworfen und getestet werden.}
+    \con{Das Implementieren von Angriffsmustererkennungsalgorithmen (Tolles Wort) ist ziemlich kompliziert.}
+    \con{Eine zukunftssichere Schnittstelle für I\&A Module kann schwierig zu implementieren sein.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item LinuxPAM
+  \item Rechte mit steigenden Authentisierungsmitteln erweitern (lesen z.B. nur mit Passwort, schreiben hingegen nur mit SmartCard)
+  \item Transport von sperrigen Geräten in einen Bereich, der sonst nur per Vereinzelung erreichbar ist. (Es gibt für bestimmte Aktionen eine andere Art des Zugangs)
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item Single Access Point
+  \item I\&A
+  \item Strategy
+\end{itemize}
+

@@ -1,3 +1,4 @@
 #!/bin/sh
 
-cp "./templates/chapter.tex" "./__src/chapters/${1}.tex"
+cp -i "./templates/chapter.tex" "./__src/chapters/${1}.tex"
+vim -c 'set ft=tex' "./__src/chapters/${1}.tex"
