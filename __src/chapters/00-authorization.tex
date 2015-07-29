@@ -1,0 +1,35 @@
+\chapter{Authorization}
+
+\section{Summary}
+Beschreibt für jede Entität einzeln, wie (lesend, schreibend, ausführend) auf welche Ressource zugegriffen werden darf.
+
+\section{Context}
+Einsatz bei sicherheitskritischen Ressourcen, auf die nicht jeder Benutzer oder Prozess beliebig Zugriff erhalten soll.
+
+\section{Problem}
+Aus Gründen der Vertraulichkeit oder Integrität. ist es manchmal wünschenswert, dass Ressourcen für bestimmte Benutzer oder Prozesse nicht frei verfügbar sind. Folgende Probleme müssen angegangen werden:\\
+\begin{itemize}{}{ }
+  \item Die aktiven Benutzer und Prozess müssen Unterschieden werden können.
+  \item Die Authorization muss unabhängig von den Ressourcen sein.
+  \item Die Authorization sollte flexibel im Umgang mit Subjekten, Objekten und Rechten sein.
+  \item Die Rechte von Benutzern und Prozessen sollen einfach modifiziert werden können.
+\end{itemize}
+
+\section{Solution}
+Jeder Subject (User, Prozess, usw.) zu Protection Object Verbindung ist ein Recht-Objekt zuweisen, welches ZugriffsTypen und ZugriffsRechte verwaltet und auch die Rechte beim Zugriff überprüft.
+
+\begin{figure}[!ht]
+  \centering
+  \includesvg[width=0.5\textwidth]{00-authorization-class-diagram}
+  \caption{Klassendiagramm f\"ur Authorization}
+\end{figure}
+
+Es kann viel Aufwand kosten alle Rechte immer richtig zu vergeben. Dies ist vorallem bei grösseren Organisationen nicht zu unterschätzen. Zudem sind viele dieser Recht-Objekte zu verwalten und zu speichern.
+
+
+\section{Known Uses}
+Ein gutes Beispiel ist die Zugriffsrechtsverwaltung in einem Betriebssystem.
+Oder auch in einer Datenbank oder einer Firewall. Jedoch sind zumeist Patterns eingesetzt, welche auf diesem Aufbauen.
+
+\section{Relationships}
+Das Pattern steht in einer engen Beziehung zum Role-Based Access Control Pattern.

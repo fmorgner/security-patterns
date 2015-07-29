@@ -1,25 +1,4 @@
-
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[swissgerman]{babel}
-\usepackage[left=2cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
-\usepackage{amsmath, amsfonts, amssymb, graphicx,fancyhdr, hyperref, lscape, pdflscape, tabularx, ragged2e, titlesec}
-\linespread{1.5}
-
-\setlength\parindent{0pt} % Removes all indentation from paragraphs
-
-\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
-
-\title{Role Based Access Control} % Title
-
-\author{Felix \textsc{Morgner}\\Ueli \textsc{Bosshard}} % Author name
-
-\date{\today} % Date for the report
-
-\begin{document}
-
-\maketitle % Insert the title, author and date
+\chapter{Role Based Access Control}
 
 \section{Summary}
 Dieses Pattern beschreibt wie man in einem komplexen System mit vielen Benutzern, den Zugriff auf Resourcen klären kann. Die Zuweisung der Berechtigungen erfolgt auf Grund der Funktionen oder Aufgaben, welche einem Benutzer (z.B. einem Angestellten oder einem Subsystem) zugewiesen sind.
@@ -32,6 +11,12 @@ Die Verwaltung von Berechtigungen in einem grossen System ist mit grossem Aufwan
 
 \section{Solution}
 Häufig ist es der Fall, dass sich Angestellte oder andere Benutzer, auf Grund ihrer Arbeitstelle oder Aufgaben, gruppieren lassen. Diese Gruppierung entspricht dem Need-to-know-Prinzip (jeder Benutzer kann oder weiss nur das was er zur Erfüllung seiner Aufgaben benötigt). Wir machen uns diese Eingenschaft zu Nutze, in dem wir Rollen definieren welche Anforderungsbezogene Berechtigungen zusammen fassen. Ein Benutzer kann dann in einer oder mehreren dieser Rollen auftreten. Somit müssen nicht mehr auf Benutzerebene einzelne Berechtigungen vergeben werden.
+
+\begin{figure}[!ht]
+  \centering
+  \includesvg[width=0.5\textwidth]{01-role_based_access_control-class-diagram}
+  \caption{Klassendiagramm f\"ur Role Based Access Control}
+\end{figure}
 
 \section{Consequences}
 
@@ -46,7 +31,7 @@ Häufig ist es der Fall, dass sich Angestellte oder andere Benutzer, auf Grund i
 
 \section{Known Uses}
 \begin{itemize}
-\item Windows-Benutzerverwaltung / AD
+\item Windows-Benutzerverwaltung / Active Directory
 \item SELinux
 \item PostgreSQL
 \item Branchenlösungen, Bsp. SAP
@@ -60,8 +45,3 @@ Häufig ist es der Fall, dass sich Angestellte oder andere Benutzer, auf Grund i
   \item ABSTRACT SESSION
 \end{itemize}
 
-\bibliographystyle{apalike}
-
-\bibliography{sample}
-
-\end{document}

@@ -1,0 +1,41 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[swissgerman]{babel}
+\usepackage[left=2cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{lscape}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{svg}
+\usepackage{transparent}
+\setsvg{inkscape=inkscape -z -D,svgpath=__src/svg/}
+
+\linespread{1.5}
+
+\setlength\parindent{0pt}
+
+\renewcommand{\labelenumi}{\alph{enumi}.}
+\newcommand{\inputChapter}[1]{\input{__src/chapters/#1}}
+
+\title{Security Patterns - HS2015}
+
+\author{Tobias \textsc{Stauber}\\Ueli \textsc{Bosshard}\\Felix \textsc{Morgner}}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\inputChapter{00-authorization}
+\inputChapter{01-role_based_access_control}
+
+\end{document}
