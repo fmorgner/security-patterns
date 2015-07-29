@@ -1,0 +1,23 @@
+\chapter{Identification and Authentication Intro}
+Das Ziel der Identifizierung ist es, den externen Nutzer eines Systems so zu erkennen, dass er vom System eindeutig einem Nutzer im System zugeordnet werden kann. Die Authentisierung beschreibt dabei für den Nutzer den Prozess des Vorweisens von Merkmalen, welche es dem System ermöglichen ihn zu identifizieren. Ist dieser Vorgang abgeschlossen können ihm z.B. von einem anderen System jene Rechte, welche für den Systemnutzer vorgesehen sind, zugewiesen werden.
+
+\section{Individual I\&A}
+\begin{itemize}
+  \item Die Frage welche gestellt wird ist in etwa diese: Welcher der Aktoren, die ich kenne bist du?
+  \item Es wird also direkt darauf geprüft, ob der Nutzer auch der ist, den er vorgibt zu sein.
+\end{itemize}
+\subsection{Example}
+Ein Postbote der ein eingeschriebenes Paket höchstpersönlich abliefern muss, darf das Paket, obwohl ich zu der Gruppe von Leute gehöre, welche Zugang zum Milchkasten haben, nicht in den Milchkasten an dieser Adresse einwerfen. Er ist vielmehr dazu verpflichtet mich durch Prüfen von Authentisierungsmittel, welche ich vorweise, zu identifizieren und erst bei erfolgreicher Identifizierung die vorgesehene Handlung vornehmen (Paket übergeben).
+
+\section{Group I\&A}
+\begin{itemize}
+  \item Zu welcher der Gruppen die ich kenne gehörst du?
+  \item Meistens für Gruppen von Personen verwendet
+\end{itemize}
+
+\subsection{Example}
+Major Bell verdonnerte den Soldaten Ive Subvers dazu die Wache zu übernehmen. Da die Stellung im Wald auf einer Kreuzung von Feldwegen liegt, erwartet Bell, dass der Durchgang streng kontrolliert wird. Abends beschliesst Major Bell Joggen zu gehen und als er loszieht scheint alles in Ordnung zu sein. Allerdings ändert sich dies schnell als er zur Stellung zurück kommt und Soldat Subvers schon von weitem grinsen sieht. Dieser verweigert dem Major prompt den Zugang, da sich dieser in seiner Joggingkleidung nicht als AdA ausweisen kann. Fazit: Obwohl Ive den Major sofort erkannte, verweigerte er ihm den Zutritt, weil diesem die notwendigen Authentisierungsmittel fehlten um sich als Angehöriger der Schweizer Armee auszuweisen.
+
+\section{Goal}
+I\&A übernimmt nichts weiter als Bestätigen einer erfolgreichen Authentisierung zu einem Zeitpunkt. Um die Zugriffe auf Ressourcen zu ermöglichen wird eine externe Funktionen benötigt. Beispielsweise um den Nutzer, welcher Identifiziert wurde mit den ihm zugehörigen Rechten auszustatten.
+
