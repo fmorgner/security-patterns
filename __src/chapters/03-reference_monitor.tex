@@ -18,9 +18,15 @@ Wenn Zugriffsbeschränkungen nicht durchgesetzt werden, dann ist es so, als wür
 \section{Solution}
 Es wird ein Prozess definiert, der den Zugriff auf Ressourcen abfängt und sie auf Einhaltung der Autorisierung überprüft.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
-  \includesvg[width=0.75\textwidth]{03-reference_monitor-class-diagram}
+  \includesvg[width=0.8\textwidth]{03-reference_monitor-class-diagram}
+  \caption{klassendiagramm f\"ur Reference Monitor}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{03-reference_monitor-sequence-diagram}
   \caption{klassendiagramm f\"ur Reference Monitor}
 \end{figure}
 
@@ -28,7 +34,6 @@ Es wird ein Prozess definiert, der den Zugriff auf Ressourcen abfängt und sie a
 \begin{itemize}
     \pro{Wenn alle Zugriffe abgefangen werden, kann sichergestellt werden, dass die Regeln erfüllt werden.}
     \pro{Implementierungen werden nicht durch den beschriebenen Prozess eingeschränkt}
-    Nachteile:
     \con{Implementierungen sind für alle typen von Ressourcen nötig. Beispielsweise ein Dateimanager muss den Zugriff auf Dateien überprüfen.}
     \con{Jeden Zugriff zu kontrollieren kann das System drastisch ausbremsen. Es kann sinnvoll sein, die Überprüfung zur Compiler-Zeit zu machen, damit wird der wiederholte Zugriff zur Ausführungszeit nicht mehr ausgebremst.}
 \end{itemize}
