@@ -1,0 +1,47 @@
+\chapter{Single Access Point}
+
+\section{Context}
+Man will externen Clients Zugriff auf ein System gewähren, jedoch muss sichergestellt sein, dass das System nicht gefährdet ist.
+
+\section{Problem}
+Da eine Interaktion eines Externen Clients z.B. eines Users mit dem System immer eine Gefährdung darstellt, sollten Zugriffe autorisiert werden können. Es ist jedoch äusserst unpraktikabel wenn jede Funktion zuerst den Client fragt, ob er das überhaupt darf. (Ich öffne Filebrowser: System bittet mich mich zu authentisieren, damit es weiss, dass ich dieses Programm ausführen darf. Ich tippe Pfad ein: System bittet mich mich zu authentisieren, damit es weiss, dass ich diesen Ordner öffnen darf. Und so würde das weiter gehen.) Es müssten also alle Programme, die irgend ein Recht erfordern, mit mir eine Authentifizierung vornehmen. Durch die Implementation in jedem Programm besteht die Gefahr, dass die Implementationen sehr stark voneinander abweichen und womöglich sogar unterschiedliche Schwachstellen aufweisen. Wer jemals Windows Vista nutzen musste, weiss wie nervend dauernde Anfragen, ob das System jetzt dies und jenes als Administrator ausführen soll, da man im Moment nicht die Rechte dafür hat, sein können. Die dauernde Notwendigkeit sich zu authentisieren kann User stark belasten.
+
+Geschichte dazu: In einem mittelalterlichen Dorf muss jeder sein eigenes Heim vor Einbrecher schützen und bei seinem Laden kontrollieren, ob die Person welche soeben eingetreten ist ein ehrbarer Kunde oder ein Dieb ist. Durch diesen Aufwand wird viel Zeit verbraucht und die vielen einzelnen Kontrollen sind mühsam.
+
+\section{Solution}
+Ein System sollte einen zentralen Eintrittspunkt haben. Dieser Eintrittspunkt kann zum Beispiel ein Loginscreen oder ähnliches sein. Nachdem der User sich daran angemeldet hat, darf er alle Tätigkeiten im System drin ausführen, für welche seine Rechte ausreichen. Dazu muss der Rest der Systemgrenze so geschützt werden, dass das Umgehen des SAP nicht möglich ist. Das System verweigert einfach alle Aktivitäten von nicht angemeldeten Benutzern. Der SAP sollte also leicht erkennbar sein, hier ein theoretisches Gegenbeispiel: Windows bootet und geht direkt auf einen defaultAccount, man erkennt aber beim Probieren, dass nichts funktioniert. Darauf muss man den Benutzer wechseln, damit man arbeiten kann.
+
+Geschichte dazu: Um das Dorf wird eine Palisade mit nur einem Eingang errichtet. Jetzt können die Dorfbewohner einen Wachmann bezahlen, welcher Fremde die in das Dorf wollen kontrolliert. Das Stadttor muss dabei klar erkennbar sein. Die Besucher wären bestimmt verwirrt, wenn sie auf dem Weg, welcher zum Dorf führt, entlanggehen und dieser an einer Palisade endet, worauf sie halb um das Dorf gehen müssen, bis sie ein kleines Türchen mit der Beschriftung <STADTTOR> treffen, welches ihnen Einlass gewährt.
+
+\begin{itemize}
+  \item Irgendwie muss ich Zugriffe auf das System handhaben, ansonsten ist das System nutzlos
+  \item Heutzutage sind viele Systeme untereinander vernetzt, die Zugangswege dazu sollten bekannt sein um eine Zusammenarbeit zu ermöglichen.
+  \item Das Pattern kann in einen vernünftigen Umfang im System selbst weiter geführt werden. (Auch die Häuser im Dorf könnten das Pattern umsetzen (nur einen Eingang))
+  \item Die Komplexität und Unsicherheit, welche durch viele unterschiedliche Kontrollen entstehen werden vermieden.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{08-single_access_point-class-diagram}
+  \caption{Strukturdiagramm f\"ur Single Access Point}
+\end{figure}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Die Zutrittskontrolle liegt an einer Stelle und ist deren Hauptkompetenz.}
+    \pro{Die Überprüfung welcher Nutzer wann angemeldet war ist ziemlich einfach (Man muss nur den Wachtposten fragen)}
+    \pro{Einheitlicher Zugang zu einem System ist einfacher zu handhaben}
+    \pro{Nutzer werden nicht durch dauernde Kontrollen genervt.}
+    \con{Wenn der SAP nicht leistungsfähig genug ist, kann er einen Flaschenhals an einem ansonsten leistungsfähigeren System bilden.}
+    \con{Einheitliche Zugangskontrollen können nicht flexibel genug sein, z.B. Passwort-only Zugang auf einem Tablet.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item Ein Funktionseintrittspunk mit Precondition Überprüfung (z.B. in Eiffel)
+  \item Unix User-Login
+  \item Eine Firewall über die alle Zugriffe auf ein dahinter liegendes Netz gehen.
+  \item Eine Vereinzelung für den Zugang zu sicherheitskritischen Bereichen z.B. Arbeitsplätze Flugsicherung usw.
+  \item Disco-T\"ursteher
+\end{itemize}
+
