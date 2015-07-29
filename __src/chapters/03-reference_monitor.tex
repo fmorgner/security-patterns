@@ -1,0 +1,50 @@
+\chapter{Reference Monitor}
+
+Auch bekannt als POLICY ENFORCEMENT POINT
+
+\section{Summary}
+Dieses Pattern erzwingt deklarierte Zugriffseinschränkungen während dem Zugriff auf eine Ressource. Es beschreibt den abstrakten Prozess, der den Zugriff auf eine Ressource abfängt und ihn auf Einhaltung der Autorisierung überprüft.
+
+\section{Context}
+Rechenumgebung in welcher Benutzer oder Prozesse eine Anfrage für Daten oder Ressourcen machen.
+
+\section{Problem}
+Wenn Zugriffsbeschränkungen nicht durchgesetzt werden, dann ist es so, als würde es sie nicht geben. Prozesse oder Benutzer könnten alle Arten von unerlaubten Aktionen durchführen. Beispiel: Jeder Benutzer könnte jede Datei lesen.  Folgende Probleme müssen also abgedeckt werden:
+\begin{itemize}
+  \item Die Definition der Autorisierung ist nicht genug, sie muss bei Zugriffen von Prozessen oder Benutzern für jede Anfrage überprüft werden.
+  \item Es gibt viele mögliche Wege den Zugriff zu beschränken, es braucht aber eine abstraktes Modell zur Authorisierungsdurchsetzung, das auf jede Ebene eines System anwendbar ist.
+\end{itemize}
+
+\section{Solution}
+Es wird ein Prozess definiert, der den Zugriff auf Ressourcen abfängt und sie auf Einhaltung der Autorisierung überprüft.
+
+\begin{figure}[!ht]
+  \centering
+  \includesvg[width=0.75\textwidth]{03-reference_monitor-class-diagram}
+  \caption{klassendiagramm f\"ur Reference Monitor}
+\end{figure}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Wenn alle Zugriffe abgefangen werden, kann sichergestellt werden, dass die Regeln erfüllt werden.}
+    \pro{Implementierungen werden nicht durch den beschriebenen Prozess eingeschränkt}
+    Nachteile:
+    \con{Implementierungen sind für alle typen von Ressourcen nötig. Beispielsweise ein Dateimanager muss den Zugriff auf Dateien überprüfen.}
+    \con{Jeden Zugriff zu kontrollieren kann das System drastisch ausbremsen. Es kann sinnvoll sein, die Überprüfung zur Compiler-Zeit zu machen, damit wird der wiederholte Zugriff zur Ausführungszeit nicht mehr ausgebremst.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item Die meisten Betriebsysteme (Bsp: Linux, MacOS X, Windows NT/2000/XP/Vista/8/9/10\ldots)
+  \item Java Security Manager
+  \item Datenbanksysteme
+  \item Firewalls
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item Reference Monitor ist ein Spezialfall von Check Point
+  \item Implementierung: concrete Reference Monitor
+  \item Interceptor (POSA2)
+\end{itemize}
+
