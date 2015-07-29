@@ -1,0 +1,61 @@
+\chapter{Identification and Authentication Requirements}
+
+\section{Summary}
+Ein "Identification and Authentication (I\&A) service" muss eine Auswahl an Anforderungen an den Service und an die Verfügbarkeit des Services erfüllen. Es ist die Aufgabe von I\&A Individuen zu erkennen und deren Identität zu bestätigen. Zwar ist jede Anfrage individuell, aber es existieren dennoch allgemeingültig Anforderungen.
+Die "I\&A Requirements" bietet eine allgemeingültige Auswahl von Anforderungen und helfen die relative Wichtigkeit von konkurrierenden Anforderungen zu ermitteln.
+
+\section{Context}
+Eine Organisation oder ein Projekt, wo bewusst I\&A eingesetzt wird. Hier wird nur der Bereich behandelt, wo Identifikation und Authentifikation eingesetzt werden.
+
+\section{Problem}
+Anforderungen von I\&A stehen oft in Konflikt miteinander. Oft ist es nötig diese Anforderungen aufeinander abzustimmen. Beispielsweise stehen die Sicherheit des Systems der einfachen Benutzbarkeit gegenüber. Folgende Situationen sollten adressiert werden:
+\begin{itemize}
+  \item Besitzer von I\&A Services möchten, dass dieser korrekt funktioniert. Der Service soll erkennen ob ein Actor mit einem Identifier verbunden ist.
+  \item Falsche Rückmeldung bei einem Betrugsfall, kann zu "Leaks" führen.
+  \item Die Produktivität wird negativ beeinflusst, wenn ein ermächtigter Actor fälschlicherweise "ausgepserrt" wird.
+  \item Benutzer verlangen I\&A Services mit guter Qualität: Schnelle Antwortzeiten, Korrekte Funktionalität, Einfach zu verstehen, Sicher, Passend zur Kategorie eines Benutzers
+  \item Für Unternhehmungen sollen I\&A Services kosteneffektiv sein und einen gute ROI liefern.
+  \item Der I\&A Service soll vor gestolenen Identitäten schützen.
+\end{itemize}
+
+\section{Solution}
+Spezifizieren von I\&A Requirements für die vorliegende I\&A Domain. Dabei muss die Wichtigkeit jeder dieser Anforderung untersucht werden.
+
+Die Lösung hat zwei Aspekte: Einen Anforderungs Prozess bzw. einen generellen Anforderungskatalog.
+
+Zuerst wird die Domain festgelegt, für welche die I\&A Anforderungen spezifiziert werden. Daraus ergeben sich Faktoren, welche die Spezialisierung beeinflussen, sowie die Wichtigkeit der Anforderung definieren. Danach werden die Anforderungen spezifiziert.
+
+\subsection{General Requirements}
+\begin{itemize}
+  \item Betrüger genau identifizieren
+  \item Legitime Akteuere genau identifizieren
+  \item Minimiere Unterschiede in den Usercharakteristiken
+  \item Minimieren Zeitaufwand um den Service zu nutzen
+  \item Minimiere das Benutzerrisiko
+  \item Minimiere Benutzerkosten für die Installation
+  \item Minimiere Veränderungen an existierenden System Infrastrukturen
+  \item Minimiere Wartungs-, Management- und Overhead-Kosten
+  \item Schütze den I\&A Service und seine Daten
+  \item Unterschiede zwischen Requirements
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Erzwingt eine klare Definition der I\&A Domains, was das Verständniss der nötigen I\&A Domains und den konkreten Anforderungen fördert.}
+    \pro{Führt zu klaren Begründungen für die Wahl der I\&A-Anforderungen.}
+    \pro{Regt eine explizite Analyse der I\&A-Requirements an und führt so zu einer besseren Wahl der I\&A-Mechanismen}
+    \pro{Es ergibt sich eine klare Dokumentation der I\&A-Anforderungen.}
+    \con{Die Umsetzung benötigt Zeit und Personal. Es ist möglich, dass die Kosten die Nutzen überwiegen.}
+    \con{Kann zu Overengineering führen. Ein weg das zu vermeiden ist nur die Teile des Patterns zu verwenden welche für die konkrete Anwendung den grössten Nutzen bringen.}
+    \con{Spezialfälle können von den generischen I\&A-Requirements nicht abgedeckt werden. Hier empfiehlt es sich, selber neue Anforderungen zu spezifizieren.}
+    \con{Die Anforderungen können sich über die Lebenszeit des Systems ändern, somit muss auch die Dokumentation aktualisierbar gestaltet sein.}
+    \con{Verschiedene Mitarbeiter/Abteilungen haben verschiedene Auffassungen der Wichtigkeit der Anforderungen, was es schwierig macht die Anforderungen abzuwägen. Das kann auch ein Vorteil sein, da es intensievere Diskussionen und bewusstere Entscheidungen fördert.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item \textbf{OMB2003} Eine Regelung zur elektronischen Authentisierung von Personen welche (staatliche) Online Angebote nutzen.
+  \item \textbf{ISO15408} Internationaler Standard der Evaluationskriterien für IT Sicherheit definiert.
+  \item \textbf{Firesmith2003} Beschreibung funktionaler I\&A-Requirements und Diskussion von I\&A Domain im Zusammenhang mit diesen.
+\end{itemize}
+

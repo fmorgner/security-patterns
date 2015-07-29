@@ -1,0 +1,87 @@
+\chapter{Access Control Requirements}
+
+\section{Summary}
+Die Funktion des "access security service" ist das erlauben oder verweigern von Aktionen wie anlegen, lesen, modifizieren oder löschen. Während in jeder Situation die Anfrage einmalig ist, gibt es trotzdem allgemeingültig Anforderungen, die auf alle Arten von Zugriffen anzuwenden sind. Die Requirements erfasst sowohl die Zugriffskontrolle als auch Eigenschaften des "access control service". Das Pattern gilt auch generelle Anforderungen auf die spezifische Situation anzuwenden und hilft die relative Wichtigkeit von widersprüchlichen Anforderungen zu finden.
+
+\section{Context}
+Wir befinden uns in einer Organisation welche den Einsatz von Zugriffskontrolle plant. Bekannt sind bereits actors, assets und actions, welche bei der Zugriffskontrolle verwendet werden. Eine access control rule erlaubt einen actor eine action auf einem asset. Zum Beispiel kann A die Datei F modifizieren.
+
+\section{Problem}
+Es braucht eine Auswahl von Anforderungen um sicherzustellen, dass die Strategie für die Zugriffsberechtigung die Bedürfnisse der Organisation oder des Systems erfüllt. Die Anforderungen für Zugriffskontrolle kollidieren oft miteinander, Kompromisse sind oft nötig. Auch hier gilt das Beispiel, dass die Sicherheit sich mit der Zugänglichkeit beisst.
+
+Wie kann die spezifische Anforderung für ein Zugriffskontrolle Service anhand der relativen Wichtigkeit gefunden werden?
+
+Der Prozess zur Auswahl und Gewichtung der "access control requirements" muss folgende Kräfte aufeinander abstimmen:
+
+\begin{itemize}
+  \item Die Zugriffskontrolle schützt die gewünschten Sicherheitseigenschaften, insbesondere die Vertraulichkeit und die Integrität.
+  \item Zugriffskontrolle ist mit Kosten verbunden, nicht nur finanziell, sondern auch mit Support-Personal, Softwareentwicklung, Zugriffszeit, Zufriedenheit der Benutzer usw.
+  \item Zugriffskontrolle erhöht die Komplexität der Software für das System, Benutzer und Administratoren
+  \item Zugriffskontrolle soll konsistent zu den Firmenrichtlinien sein.
+  \item Die Komplexität darf nicht zu Fehlbedienung führen.
+  \item Die Zugriffskontrolle ist nicht nur lokal, sondern muss auch im Zusammenspiel mit anderer Software funktionieren.
+  \item Extrem angewendete Zugriffsbeschränkungen führen zwar meist zu wenig ungewollten Zugriffen, aber die Gewährung der Rechte ist mit hohem Aufwand verbunden.
+  \item Wenig fein eingestellte Zugriffskontrolle erleichtert den Zugriff, aber gibt meist mehr Informationen als gewollt preis.
+\end{itemize}
+
+\section{Solution}
+Definieren einer Auswahl von access control requirements für eine sepzifische Domäne und stelle ihre spezifische Wichtigkeit fest. Die Umsetzung erfolgt in einem requirement Prozess und setzt auf eine Liste von generischen Anforderungen.
+\begin{itemize}
+  \item Verweigere unberechtigten Zugriff
+  \item Erlaube berechtigten Zugriff
+  \item Begrenze den Schaden falls unberechtigter Zugriff zustande gekommen ist
+  \item Vermeide Zugriffsverweigerung bei berechtigtem Zugriff
+  \item Minimiere die Systemlast durch Zugriffskontrolle
+  \item Ermögliche Umsetzung von geforderten Sicherheitsrichtlinien
+  \item Mache den Zugriffskontrollservice flexibel
+\end{itemize}
+
+\section{Implementation}
+Die Implementation des ACCESS CONTROL REQUIREMENTS Patterns erfolgt in mehreren Schritten:
+
+\begin{enumerate}
+  \item Festlegung der Domain
+  \item Festlegung von Faktoren welche die Requirements beeinflussen
+  \item Eine oder mehrere Access Control Policies auswählen
+  \item Granularität der Zugriffskontrolle festlegen
+  \item Requirements festlegen
+  \item Wichtigkeit der Requirements festlegen
+\end{enumerate}
+
+Die wichtigsten Reuqirements auf einen Blick (mehr im Buch auf Seite 273):
+\begin{table}[H]
+  \centering
+  \caption{My caption}
+  \label{my-label}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    {\bf Requirement}            & {\bf Faktor}                           \\ \midrule
+    Deny unauthorized access     & Sensibilität der Schutzobjekte         \\
+    Limit blockage               & Benutzerzufriedenheit                  \\
+    Minimize burden              & Performance \& Availability            \\
+    Make access control flexible & Mehrere Modi (Normal, lock-down, etc.) \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Consequences}
+Die Konsequenzen sind ählich wie letzte Woche:
+
+\begin{itemize}
+    \pro{Access Control Requirements müssen bewusst bestimmt werden}
+    \pro{Tradeoffs müssen explizit erwogen werden}
+    \pro{Es wird eine Dokumentation erstellt welche die Interessen der beteiligten Parteien darlegt und Audits unterstützen kann}
+    \pro{Erzeugung eines klaren Zusammenhangs zwischen Reuqirements und Policies}
+    \con{Die Kosten können hoch sein und im Extremfall die Nutzen überwiegen}
+    \con{Gefahr der Komplexität und von Over-Engineering}
+    \con{Es kann sehr lange dauern ( -> hohe Kosten )}
+    \con{Spezialfälle können nicht mit generischen Requirements gehandhabt werden}
+\end{itemize}
+
+\section{Known Uses}
+
+\begin{itemize}
+  \item \textbf{RFC2820} Access Control Requirements for LDAP
+  \item \textbf{Eve04} Fallstudie in Bezug auf Gesundheits-Informationen
+  \item \textbf{ISO15408} Common Criteria for Information Technology Security Evaluation
+\end{itemize}
+
