@@ -1,0 +1,31 @@
+\chapter{Role Rights Definition}
+
+\section{Context}
+Applikationen, welche aus mehreren unterschiedlichen Rollen bestehen, welchen nicht sauber Rechte zugewiesen werden können.
+
+\section{Problem}
+Das RBAC-Model wird inzwischen in allen Arten von Systemen eingesetzt. Jedoch sind die Rollen oft nicht sprechend genug, es ist nicht klar, wieso Rolle X genau die Rechte R, S, T benötigt. Das Problem ist es also eine sinnvolle Zuweisung der Rechte zu finden, welche die "Ein Minimum an Rechte"-Regelung einhält. Es müssen dabei folgende Bedingungen eingehalten werden:
+\begin{itemize}
+  \item Rollen sollten realen Tätigkeiten im Unternehmen zugeordnet werden können und die zur Ausführung deren nötigen Rechte beinhalten.
+  \item Jede dieser Rollen kriegt nur so viel Rechte, dass sie gerade alle in ihren Tätigkeitsbereich fallende Aufgaben erfüllen kann.
+  \item Änderungen an Rollen und deren Rechte sollten einfach durchführbar sein.
+  \item Die Rechtezuweisung sollte von der Implementation des Systems unabhängig sein.
+\end{itemize}
+
+\section{Solution}
+Entwickle Usecases für alle Tätigkeitsabläufe in der Organisation. Alle Aktoren, welche darin vorkommen können auf Rollen abgebildet werden. Wenn man für die Usecases SSD's entwickelt, zeigen diese auf, auf was für Ressourcen der entsprechende Aktor zugreifen muss. Dieses Entwickeln kann bei seriöser Durchführung echt zeitintensiv sein.
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Weil Rechte wirklich auf einer Analyse der Tätigkeiten basieren, kann ein Minimum an Rechte verteilt werden.}
+    \pro{Da in den SSD's die benötigten Ressourcen ermittelt worden sind, können dafür einfach Rechte geschrieben werden.}
+    \pro{Neue UC's definieren also nur neue Rechte, welche einfach hinzugefügt werden können.}
+    \pro{Der gesamte Ansatz ist unabhängig von der zugrundeliegenden Implementation. Deshalb müssen nur die Interaktionen zwischen Aktor und System autorisiert werden, nicht hingegen die internen Zugriffe auf die Objekte. Solange sich also die externe Sicht auf das System nicht verändert (z.B. Usecases benötigen immer noch File X,Y,Z) muss die Rolle oder ihre Rechte nicht verändert werden, auch wenn die zugrundeliegende Implementation ändert.}
+    \con{Das Erstellen von geeigneten Usecases und zugehörigen SSD's benötigt eine gewisse Erfahrung. Dies ist eine Humanressource, über die nicht jedes Unternehmen verfügt.}
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item ROLE BASED ACCESS CONTROL
+\end{itemize}
+
