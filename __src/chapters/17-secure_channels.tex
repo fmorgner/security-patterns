@@ -1,0 +1,64 @@
+\chapter{Secure Channels}
+
+\section{Summary}
+Häufig ist es nötig vertrauliche Informationen über nicht vertrauenswürdige Netze (z.B. das Internet) zu übertragen. Diese Kommunikation kann abgehört werden und muss deshalb durch SECURE CHANNELS geschützt werden.
+
+\section{Context}
+Wir betrachten ein System, welches mit seinen Benutzern über das Internet kommuniziert. Ein Teil der Daten ist vertrauchlich und soll vom Dritten geschützt werden.
+
+\section{Problem}
+Das Internet ist als Netzwerk nicht vertrauenswürdig, da ersten keine festen Routen garantiert sind und zweitens das abhören von Verkehr durch Drittparteien (einfach) möglich ist. Eine Lösung für dieses Problem muss folgenden Eigenschaften haben:
+\begin{itemize}
+  \item Sie muss in der Lage sein die wichtigen Daten zu schützen. Der grösste Teil der Daten ist jedoch nicht sensibel.
+  \item Sie muss effizient sein, da Verschlüsselung "teuer" ist.
+  \item Sie muss mit beliebigen Kommunikationspartner funktionieren, da die meisten keine spezielle Hard- oder Software installieren können oder werden.
+\end{itemize}
+
+\section{Solution}
+Wir erzeugen SECURE CHANNELs zwischen unserem Dienst und seinen Clients. Diese Kanäle verschlüsseln die Daten welche über sie übertragen werden. Zu Diesem Zweck müssen Daten zwischen den Kumminikationspartnern ausgetauscht werden, welche es erlauben sich auf ein gemeinsames Geheimnis zu einigen.
+\subsection{Structure}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{17-secure_channels-class-diagram}
+  \caption{Strukturdiagramm f\"ur Secure Channels}
+\end{figure}
+
+\subsection{Implementation}
+
+\begin{caveat}[Performance]
+  Das Buch geht davon aus, das der Einsatz von TLS teuer ist. Mit modernen Verfahren wie zum Beispiel ECC und ECDHE ist die Leistungseinbuse jedoch sehr klein geworden. Zudem verfügen viele Geräte heute über Hardware-Beschleunigung für diverse symmetrische verfahren wie zum Beispiel AES. Ich messe daher der Leistungseinbuse als Begründung für den reduzierten Einsatz von Verschlüsselung nur wenig Bedeutung zu.
+\end{caveat}
+
+Die meisten Systeme verfügen über eingebaute Unterstützung für diverse Verschlüsselungsverfahren. Auch viele Entwicklungsplattformen(Java, .NET, Python, Ruby, ...) und Frameworks (Boost.ASIO, CoreFoundation, Foundation, ...) besitzen eingebaute TLS Mechanismen.
+
+Ein wichtiger Punkt beim Einsatz von TLS ist die Komibination von Load-Balancern. Da die verschlüsselte Verbindung zwischen einem Client und einem Server besteht kann die Last nicht so effizient verteilt werden wie bei unverschlüsselter Kommunikation. Um trotzdem Lastverteilung einsetzen zu können, kann man entweder eine Session auf jeweils einen Webserver "pinnen" oder einen TLS-fähigen Load-Balancer einsetzen.
+
+Um TLS einsetzen zu können benötigt der Server einen Public-Private-Key-Paar (z.B X.509-Zertifikat) mit dem sich gegenüber dem Server authetisieren und ein gemeinsames Geheimnis aushandeln kann. Hier können entweder "offizielle" (gekaufte) Zertifikate zum Einsatz kommen, oder man verwendet self-signed Schlüssel und setzt DANE (DNSSEC) ein um so die Vertrauensstellung zu etablieren.
+
+TLS ist jedoch nicht die einzige Form von SECURE CHANNELs. Beispiele für asynchrone Implementationen sind S/MIME, Encrypted XML/SOAP oder auch Chatsysteme wie Threema.
+
+\section{Consequences}
+\begin{samepage}
+\begin{itemize}
+    \pro{Die Daten sind fuer Angreifer nicht lesbar}
+    \pro{Grosse Verbreitung}
+    \pro{Schlüsselaustausch mit neuen Teilnehmern simple}
+    \pro{Beinträchtigt die Kommunikation fuer nicht sensitive Daten nicht.}
+    \con{Performance ist beeinträchtigt.}
+    \con{Skalierbarkeit potentiell eingeschränkt}
+    \con{Verfuegbarkeit potentiell eingeschränkt}
+    \con{Hoehere Kosten durch Kauf von Zertifikaten und Hardware}
+\end{itemize}
+\end{samepage}
+
+\section{Known Uses}
+\begin{itemize}
+  \item TLS
+  \item S/MIME
+  \item Encrypted SOAP
+  \item IPSec
+  \item OpenVPN
+  \item Threema
+  \item Frontg8
+\end{itemize}
+

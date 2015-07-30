@@ -3,21 +3,14 @@
 \usepackage[T1]{fontenc}
 \usepackage[swissgerman]{babel}
 \usepackage[left=2cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
-\usepackage{amsmath}
-\usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{fancyhdr}
-\usepackage{hyperref}
-\usepackage{lscape}
-\usepackage{pdflscape}
-\usepackage{tabularx}
 \usepackage{ragged2e}
 \usepackage{titlesec}
+\usepackage{booktabs}
 \usepackage{svg}
 \usepackage{transparent}
 \usepackage{float}
-\usepackage{booktabs}
+\usepackage[many]{tcolorbox}
 \PassOptionsToPackage{table,xcdraw}{xcolor}
 \setsvg{inkscape=inkscape -z -D,svgpath=__src/svg/}
 
@@ -34,32 +27,80 @@
 \newcommand{\pro}[1]{\item [pro]#1}
 \newcommand{\con}[1]{\item [con]#1}
 
-\title{Security Patterns - HS2015}
+\newtcolorbox{caveat}[1][]{
+  breakable,
+  freelance,
+  title=CAVEAT: #1,
+  colback=white,
+  colbacktitle=white,
+  coltitle=black,
+  fonttitle=\bfseries,
+  bottomrule=0pt,
+  boxrule=0pt,
+  colframe=white,
+  overlay unbroken and first={
+    \draw[red!75!black,line width=3pt]
+    ([xshift=5pt]frame.north west) -- 
+    (frame.north west) -- 
+    (frame.south west);
+    \draw[red!75!black,line width=3pt]
+    ([xshift=-5pt]frame.north east) -- 
+    (frame.north east) -- 
+    (frame.south east);
+  },
+  overlay unbroken app={
+    \draw[red!75!black,line width=3pt,line cap=rect]
+    (frame.south west) -- 
+    ([xshift=5pt]frame.south west);
+    \draw[red!75!black,line width=3pt,line cap=rect]
+    (frame.south east) -- 
+    ([xshift=-5pt]frame.south east);
+  },
+  overlay middle and last={
+    \draw[red!75!black,line width=3pt]
+    (frame.north west) -- 
+    (frame.south west);
+    \draw[red!75!black,line width=3pt]
+    (frame.north east) -- 
+    (frame.south east);
+  },
+  overlay last app={
+    \draw[red!75!black,line width=3pt,line cap=rect]
+    (frame.south west) --
+    ([xshift=5pt]frame.south west);
+    \draw[red!75!black,line width=3pt,line cap=rect]
+    (frame.south east) --
+    ([xshift=-5pt]frame.south east);
+  },
+}
 
-\author{Tobias \textsc{Stauber}\\Ueli \textsc{Bosshard}\\Felix \textsc{Morgner}}
+  \title{Security Patterns - HS2015}
 
-\date{\today}
+  \author{Tobias \textsc{Stauber}\\Ueli \textsc{Bosshard}\\Felix \textsc{Morgner}}
 
-\begin{document}
+  \date{\today}
 
-\maketitle
+  \begin{document}
 
-\inputChapter{00-authorization}
-\inputChapter{01-role_based_access_control}
-\inputChapter{02-multi_level_security}
-\inputChapter{03-reference_monitor}
-\inputChapter{04-role_rights_definition}
-\inputChapter{05-identification_and_authentication_intro}
-\inputChapter{06-identification_and_authentication_requirements}
-\inputChapter{07-access_control_requirements}
-\inputChapter{08-single_access_point}
-\inputChapter{09-check_point}
-\inputChapter{10-security_session}
-\inputChapter{11-full_access_with_errors}
-\inputChapter{12-limited_access}
-\inputChapter{13-packet_filter_firewall}
-\inputChapter{14-proxy_based_firewall}
-\inputChapter{15-stateful_firewall}
-\inputChapter{16-information_obscurity}
+  \maketitle
 
-\end{document}
+  \inputChapter{00-authorization}
+  \inputChapter{01-role_based_access_control}
+  \inputChapter{02-multi_level_security}
+  \inputChapter{03-reference_monitor}
+  \inputChapter{04-role_rights_definition}
+  \inputChapter{05-identification_and_authentication_intro}
+  \inputChapter{06-identification_and_authentication_requirements}
+  \inputChapter{07-access_control_requirements}
+  \inputChapter{08-single_access_point}
+  \inputChapter{09-check_point}
+  \inputChapter{10-security_session}
+  \inputChapter{11-full_access_with_errors}
+  \inputChapter{12-limited_access}
+  \inputChapter{13-packet_filter_firewall}
+  \inputChapter{14-proxy_based_firewall}
+  \inputChapter{15-stateful_firewall}
+  \inputChapter{16-information_obscurity}
+  \inputChapter{17-secure_channels}
+
+  \end{document}
