@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage[many]{tcolorbox}
+\usepackage{epigraph}
 \PassOptionsToPackage{table,xcdraw}{xcolor}
 \setsvg{inkscape=inkscape -z -D,svgpath=__src/svg/}
 
@@ -122,43 +123,61 @@
   },
 }
 
-  \title{Security Patterns - HS2015}
+\title{Security Patterns - HS2015}
 
-  \author{Tobias \textsc{Stauber}\\Ueli \textsc{Bosshard}\\Felix \textsc{Morgner}}
+\author{Tobias \textsc{Stauber}\\Ueli \textsc{Bosshard}\\Felix \textsc{Morgner}}
 
-  \date{\today}
+\date{\today}
 
-  \begin{document}
+\begin{document}
 
-  \maketitle
+\maketitle
+\clearpage
+\vspace*{\fill}
+  \epigraph{I think the problem, to be quite honest with you, is that you've never actually known what the question is.}{Deep Thought}
+\vfill
+\clearpage
 
-  \inputChapter{00-authorization}
-  \inputChapter{01-role_based_access_control}
-  \inputChapter{02-multi_level_security}
-  \inputChapter{03-reference_monitor}
-  \inputChapter{04-role_rights_definition}
-  \inputChapter{05-identification_and_authentication_intro}
-  \inputChapter{06-identification_and_authentication_requirements}
-  \inputChapter{07-access_control_requirements}
-  \inputChapter{08-single_access_point}
-  \inputChapter{09-check_point}
-  \inputChapter{10-security_session}
-  \inputChapter{11-full_access_with_errors}
-  \inputChapter{12-limited_access}
-  \inputChapter{13-packet_filter_firewall}
-  \inputChapter{14-proxy_based_firewall}
-  \inputChapter{15-stateful_firewall}
-  \inputChapter{16-information_obscurity}
-  \inputChapter{17-secure_channels}
-  \inputChapter{18-known_partners}
-  \inputChapter{19-demilitarized_zone}
-  \inputChapter{20-authenticator}
-  \inputChapter{21-controlled_process_creator}
-  \inputChapter{22-controlled_object_factory}
-  \inputChapter{23-controlled_object_monitor}
-  \inputChapter{24-controlled_virtual_address_space}
-  \inputChapter{25-execution_domain}
-  \inputChapter{26-controlled_execution_environment}
-  \inputChapter{27-file_authorization}
+\setcounter{tocdepth}{0}
+\tableofcontents
 
-  \end{document}
+\inputChapter{00-authorization}
+\inputChapter{01-role_based_access_control}
+\inputChapter{02-multi_level_security}
+\inputChapter{03-reference_monitor}
+\inputChapter{04-role_rights_definition}
+\inputChapter{05-identification_and_authentication_intro}
+\inputChapter{06-identification_and_authentication_requirements}
+\inputChapter{07-access_control_requirements}
+\inputChapter{08-single_access_point}
+\inputChapter{09-check_point}
+\inputChapter{10-security_session}
+\inputChapter{11-full_access_with_errors}
+\inputChapter{12-limited_access}
+\inputChapter{13-packet_filter_firewall}
+\inputChapter{14-proxy_based_firewall}
+\inputChapter{15-stateful_firewall}
+\inputChapter{16-information_obscurity}
+\inputChapter{17-secure_channels}
+\inputChapter{18-known_partners}
+\inputChapter{19-demilitarized_zone}
+\inputChapter{20-authenticator}
+\inputChapter{21-controlled_process_creator}
+\inputChapter{22-controlled_object_factory}
+\inputChapter{23-controlled_object_monitor}
+\inputChapter{24-controlled_virtual_address_space}
+\inputChapter{25-execution_domain}
+\inputChapter{26-controlled_execution_environment}
+\inputChapter{27-file_authorization}
+
+
+\clearpage
+\vspace*{\fill}
+\begin{center}
+    { \huge \bfseries :wq }
+\end{center}
+\vfill
+\clearpage
+
+
+\end{document}
