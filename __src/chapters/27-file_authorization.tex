@@ -1,0 +1,38 @@
+\chapter{File Authorization}
+
+\section{Context}
+Files werden verwendet, um Daten zu persistieren. Auf diese können jedoch all die User zugreifen. Also müssen die Zugriffsrechte auf authorisierte User eingeschränkt werden. Aus organisationstechnischen Gründen müssen die Files unter den Usern geteilt werden. Es müssen Files kreiert, gelesen und gelöscht werden können.
+
+\subsection{Example}
+Jim ist Programmierer bei einem Finanzinstitut. Er hat einen Useraccount und eigene Dateien auf dem System des Instituts. Er realisiert, dass dasselbe System auch Dateien mit Kundendaten verwaltet. Diese Dateien unterliegen keinerlei Zugriffskontrolle, also liest Jim einige dieser Dateien und findet Kundeninfos wie SSN's (Social Security Number = Sozialversicherungsnummer) und Kreditkarten Nummern. Er nutzt diese um einige Dinge zu bezahlen, welche er bestellt hatte.
+
+\section{Problem}
+Der Zugriff auf Files muss sorgfältig kontrolliert werden, da sie sensible Informationen enthalten können. Folgendes muss gelöst werden:
+\begin{itemize}
+  \item Es kann diverse Subjekte geben. (User, Rollen, Gruppen) Dabei werden dem User die Rechte der Gruppe oder Rolle, in der sie sind vermacht.
+  \item Die Subjekte können sowohl Zugriff auf Files und Directories haben, wie auch auf bestimmte Workstations. Um illegale Aktionen zu unterbinden, müssen wir die Implementationsdetails abstrahieren.
+  \item Da jedes OS Filesystems ein wenig anders handhabt, muss hier nochmals abstrahiert werden.
+  \item Da nicht jedes OS Dinge wie Workstations, Gruppen oder Rollen kennt, müssen wir ein modulares System haben, in welchem ungenutzte Features leicht aus dem Modell entfernt werden können.
+\end{itemize}
+
+\section{Solution}
+Wir verwenden AUTHORIZATION um die Zugriffe der Subjects auf Files zu verwalten. Dazu werden ACL (Access Control Lists) verwendet, welche aus Sets von Authorizations bestehen. Das Schutzobjekt ist jetzt eine Filesystemkomponente, wie z.B. ein File oder ein Directory. Die Tatsache, dass einige Files bloss von bestimmten Workstations aus verwendet werden dürfen schlägt sich in einer weiteren Verwendung von AUTHORIZATION nieder. Um die Baumstrukturen des Filesystems abzubilden verwenden wir COMPOSITE.
+
+\subsection{Structure}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{27-file_authorization-class-diagram}
+  \caption{Strukturdiagramm f\"ur File Authorization}
+\end{figure}
+
+\subsection{Implementation}
+Typischer weise werden Directories als Bäume oder gerichtete Graphen abgebildet. Ein FCB (File Control Block) beschreibt die Charakteristiken eines jeden Files, inklusive den Zugriffsrechten.
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Die Subjekte können User, Rollen oder Gruppen sein und diese können wiederum rekursiv strukturiert sein.}
+    \pro{Die zu schützenden Objekte können Files, Directories oder rekursive Strukturen daraus sein.}
+    \pro{Im Normalfall genügen die Rechte lesen, schreiben und ausführen, diese können jedoch auch feiner strukturiert werden.}
+    \con{Typischerweise sind die Zugriffsrechte mit ACL's geregelt.}
+\end{itemize}
+
