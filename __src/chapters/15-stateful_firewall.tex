@@ -1,0 +1,38 @@
+\chapter{Stateful Firewall}
+
+\section{Summary}
+Eine Stateful Firewall filtert einkommenden und ausgehender Netzwerk-Verkehr aufgrund von Statusinformationen die auf bisheriger Kommunikation basiert. Statusinformationen beschreiben, ob das Paket Teil einer neuen oder bestehenden Verbindung ist. Der Status beschreibt also den Kontext eines Pakets.
+
+\section{Context}
+Systeme eines lokalen Netzwerks, die mit dem Internet oder anderen externen Netzwerken verbunden sind und Paket Filter für die Sicherheit nicht ausreichen.
+
+\section{Problem}
+Wie können eingehende Pakete korrelieren werden?
+
+\section{Solution}
+Generiere eine Liste mit den Verbindungen die geöffnet wurden und korreliere den gesendeten oder empfangenen Nachrichtentyp. Das bietet die Möglichkeit, dass die Pakete einer bereits geöffneten Verbindung nicht inspiziert werden müssen.
+
+\subsection{Implementation}
+\begin{itemize}
+  \item Generiere eine Liste mit den Attacken-Typen, welche verhindert werden sollen.
+  \item Implementiere das Rule-Set so, dass die oben definierten Pakete mit ihm korrelieren.
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Es ist relativ einfach, die Statustabelle aufzubauen, wenn die zu erwarteten Attacken bekannt sind.}
+    \pro{Die Implementationskosten sind relativ gering.}
+    \pro{Da nur die Paket-Header analysiert werden müssen und für bestehende Verbindungen nur in die Statustabelle geschaut werden muss, wird eine gute Performance erreicht.}
+    \pro{Mit einer Stateful Firewall kann die Sicherheit von anderen Firewall-Typen erhöht werden, da Informationen auf verschiedenen Levels hinzugefügt werden.}
+    \pro{Bei neuen Attacken werden lediglich zusätzliche Wege benötigt, um auch diese Pakete korrelieren zu können.}
+    \pro{Connectione-based Logging wird unterstützt. Das kann nützlich sein, um neue Arten von Attacken zu erkennen.}
+    \con{Attacken könnten sich die Problematik einer vollen Statustabelle zu Nutze machen}
+    \con{Patterns zu Attacken müssen definiert und implementiert werden, damit sie erkannt und verhindert werden können.}
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item PACKET FILTER FIREWALL
+  \item PROXY-BASED FIREWALL
+\end{itemize}
+

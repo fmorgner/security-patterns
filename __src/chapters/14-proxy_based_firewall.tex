@@ -1,0 +1,46 @@
+\chapter{Proxy Based Firewall}
+
+\section{Context}
+Wir befinden uns in einem Netzwerk in welchem Computersysteme vorhanden sind, die mit Netzwerken vebunden sind, für welche eine höhere Sichrheit benötigt wird als sie PACKET FILTER FIREWALL gewähren kann. Es ist wichtig dass wir die Layer 7 Nachrichten inspizieren können.
+
+\section{Problem}
+PACKET FILTER FIREWALL überprüft nur die Addressen von Requests. Wenn es einem Angreifer gelingt eine vertrauenswürdige Adresse zu spoofen können wir diese Attacke nicht bemerken. Wir können auch Angriffe welche in den Daten eines Pakets eingebettet sind nicht bemerken. Wir haben folgende Anforderungen:
+
+\begin{itemize}
+  \item Zugriff von aussen muss möglich sein.
+  \item Wir müssen eine Vielzahl von verschiedenen Systemen schützen können.
+  \item Es muss ein klares Modell geben, welches die eingesetzen Schutzmechanismen beschreibt.
+  \item Die Schutzvorkehrungen müssen die Sicherheits Vorschriften einer Organisation wiedergeben können.
+  \item Das System muss leicht zu ändern sein um auf neue Angriffe reagieren zu können.
+  \item Zugriffe müssen geloggt werden können.
+\end{itemize}
+
+\section{Solution}
+Wir lassen externe Clients nur mit einem Prozy Service kommunizieren. Der Proxy kommuniziert dann mit dem zu schützenden Host. Damit kann der Client nur Daten erhalten, wenn es einen Proxy für das angefragte System gibt. Jeder Proxy hat sein eigenes Regelset.
+\subsection{Structure}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{14-proxy_based_firewall-class-diagram}
+  \caption{Strukturdiagramm f\"ur Proxy Based Firewall}
+\end{figure}
+
+\subsection{Implementation}
+Folgende Schritte werden benoetigt um das System zu implementieren:
+\begin{itemize}
+  \item Festlegung der freigegebenen Dienste
+  \item Einen Proxy vor jeden Host stellen der erreichbar sein soll
+  \item Regeln fuer den Zugriff festlegen
+  \item Regeln in der Rule-Base des Proxys ablegen
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Die Firewall inspiziert und filtert jeden Request.}
+    \pro{Der Lokale Rechner wird vor seinem Client versteckt.}
+    \pro{Jeder Request kann aufgezeichnet werden.}
+    \pro{Es werden nicht mehr nur die Adressen sondern auch Struktur un Inhalt der Pakete untersucht.}
+    \con{Möglicherweisse hohe Kosten auf Grund von Anschaffung und Konfiguration der Proxies.}
+    \con{Verminderte Performance, da jedes Paket untersucht werden muss.}
+    \con{Höhere Komplexität}
+\end{itemize}
+
