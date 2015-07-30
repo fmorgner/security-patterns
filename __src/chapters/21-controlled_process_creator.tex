@@ -1,0 +1,22 @@
+\chapter{Controlled Process Creator}
+
+\section{Summary}
+Dieses Pattern beschreibt, wie die passenden Zugriffsrechte für einen neuen Prozess vergeben werden.
+
+\section{Context}
+Ein Betriebsystem in welchem Prozesse oder Threads gemäss den Applikationsbedürfnissen erstellt werden.
+
+\section{Problem}
+Ein Benutzer führt eine Applikation aus, die aus mehreren Prozessen besteht. Prozesse werden normalerweise durch Systemaufrufe zum Betriebssystem erstellt. Ein Prozess, der einen anderen Prozess erstellt, erhält vom Betriebsystem ein Child-Prozess, der Rechte an bestimmten Ressourcen bekommt. Ein Computersystem benutzt viele Prozesse oder Threads. Wenn die Prozesse nicht eingeschränkt werden, können diese unerlaubt auf fremde Prozesse und Daten zugreiffen. Die Rechte auf Ressourcen sollten deshalb sorgfältig vergeben werden.
+\begin{itemize}
+  \item Es sollte einfach möglich sein, die Strategie zur Definition der Rechte auszuwählen
+  \item Ein Chlid-Prozess muss möglicherweise die selben Aktionen durchführen, wie sein Parent, er sollte dennoch sorgfältig kontrolliert werden, so dass er nicht unerlaubt Informationen herausgeben oder Daten zerstören kann.
+  \item Die Anzahl Child-Prozesse, die ein Prozess erstellen kann muss eingeschenkt werden, so dass keine Denial-of-service-Attacken durchgeführt werden können.
+  \item Es gibt Situationen, in denen ein Prozess mehr Rechte braucht und bestimmte Aktionen auszuführen. Beispielsweise wenn er auf ein File zugreifen will, auf das er normalerweise kein Zugriff hat.
+\end{itemize}
+
+\section{Solution}
+Da Prozesse mittels Systemaufrufen an das Betriebsystem erstellt werden, können wir die Rechte dort kontrollieren. Typischerweise erstellt das Betriebsystem einen neuen Prozess als Child-Prozess. Wir überlassen es dem Parent die spezifische Auswahl an Rechten an sein Child weiter zu geben, was sicher ist, da eine präzisere Kontrolle der Rechte möglich ist.
+\subsection{Implementation}
+Für jeden benötigte Anwendung von Kernel Threads, definiere ihre Rechte anhand der zugesagten Funktion.
+
