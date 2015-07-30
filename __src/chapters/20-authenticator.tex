@@ -1,0 +1,44 @@
+\chapter{Authenticator}
+
+\section{Summary}
+Dieses Pattern behandelt das Problem, wie man verifizieren soll, ob ein Subject das ist, was es vorgibt zu sein.
+
+\section{Context}
+Systeme, an welchen sich Nutzer anmelden und welche von Hochstaplern manipuliert werden können.
+
+\section{Problem}
+Wie sollen wir kontrollieren, ob ein Nutzer wirklich der ist, für den er sich ausgibt? Besonders bei Rollen mit weitreichenden Befugnissen kann dies gefährlich sein. Folgendes muss gelöst werden:
+\begin{itemize}
+  \item Alle Arten von Sicherheitsauthentisierungen müssen abgedeckt werden damit keine Sicherheitslecks entstehen.
+  \item Wir benötigen ein sicheres verlässliches und robustes Protokoll um Nutzer zu authentisieren und die Resultate der Authentisierung sicher zu lagern.
+  \item Höhere Sicherheit bringt auch höhere Kosten mit sich.
+  \item Wenn regelmässig authentisiert werden muss, dann kann sich das negativ auf die Performance des Systems auswirken.
+\end{itemize}
+
+\section{Solution}
+Wir benutzen SINGLE ACCESS POINT um alle Interaktionen mit dem System abzufangen und wenden dann auf die Interaktionen jeweils ein Protokoll an, welches uns ermöglicht den Nutzer zu identifizieren. Dieses Protokoll kann zum Beispiel daraus bestehen, den Nutzer zur Eingabe seines Passwortes aufzufordern, eine Challenge zu signieren, usw.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{20-authenticator-class-diagram}
+  \caption{Strukturdiagramm f\"ur Authenticator (PKI Variante)}
+\end{figure}
+
+\subsection{Implementation}
+Für ein zentralisiertes System braucht es folgende Schritte um AUTHENTICATOR umzusetzen.
+\begin{itemize}
+  \item Die Authentisierungsanforderungen ermitteln (Siehe I\&A REQUIREMENTS)
+  \item Sich auf eine Authentisierungmethode festlegen.
+  \item Eine Liste von legitimen Nutzern und deren Authorisierungsmitteln erstellen.
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Wenn das Protokoll und die Listen flexibel genug sind, können diverse Arten von Login vorgenommen werden.}
+    \pro{Die Listen mit den Authentisierungsdaten können separat in einem sicheren Bereich gelagert werden, in dem zwar alle Nutzer lesen, aber nicht schreiben können.}
+    \pro{Da es viele Protokolle gibt, können welche gewählt werden, welche den optimalen Kompromiss zwischen Sicherheit und Performance bieten.}
+    \pro{Die Authentisierung kann verteilt werden.}
+    \pro{Wenn dies in Kombination mit SINGLE SIGN ON genutzt wird, können ganze Systeme mit einem Login abgedeckt werden.}
+    \con{Die Authentisierung benötigt Zeit}
+    \con{Je grösser die Sicherheitsanforderungen, desto grösser die Kosten.}
+\end{itemize}
