@@ -1,0 +1,51 @@
+\chapter{Known Partners}
+
+\section{Summary}
+Eine Firma die mittels Webtechnologien Dienstleistungen oder Informationen anbietet muss diese Dienste so einfach wie möglich ihren Kunden zur Verfügung stellen. Wenn diese Interaktionen geheim oder von hohem Wert sind, wollen wir sicherstellen, dass die Benutzer mit welchen wir interagieren auch die sind, für die wir sie halten. Auch die Benutzer wollen sicher sein, dass unser System das ist, welches sie denken. In "Known Partners" geht es um ein System, bei dem wir sicher sind, wer mit wem interagiert.
+\subsection{Example}
+Ein Internet-System, dass zwei Schnittstellen per Internet zur Verfügung stellt. Eines für alle öffentlichen Benutzer und eines für Geschäftspartner. Die Schnittstelle für Geschäftspartner erlaubt dem Benutzer Bestellungen zu tätigen, oft mit grossen Warenwert. Wurde die Bestellung ausgelöst, so wird die Ware geliefert und eine Rechnung ausgestellt. Wenn nun jeder Zugriff zu dem System hätte, so könnte es einfach missbraucht werden. Jemand könnte sich aus jemand anderen ausgeben. Als Resultat werden Waren und Rechnungen geliefert werden, die von dem betreffenden Kunden gar nie ausgelöst wurden.
+
+\section{Context}
+Business-Systeme welche Transaktionen mit höheren Geldbeträgen oder schützenswerte Daten für ausgewählte Benutzer bieten.
+
+\section{Problem}
+Wir wollen ein System anbieten, dass einer Firma erlaubt mit Kunden oder Geschäftspartnern zu interagieren. Wie können wir die Identität sicherstellen, damit wir wissen, dass auf beiden Seiten die Parteien sind, die auch erwartet werden? Folgendes soll beachtet werden:
+\begin{itemize}
+  \item Das System soll möglichst einfach zugänglich sein. Wir brauchen eine Balance zwischen einfachem Zugriff und einem sicheren System, dass uns vor unberechtigtem Zugriff schützt.
+  \item Leichtgewichtige Sicherheitsmechanismen wie Beispielsweise Benutzername und Passwort funktionieren nur auf eine Seite, aber nicht umgekehrt. Wir können zwar so einen Weg gehen, allerdings kann die Sicherheit relativ einfach gebrochen werden. Besser ist, wenn sich auch der Dienstleister ausweisen muss.
+  \item Die Kosten für eine gute Sicherheitslösung sind zwar erhöht, allerdings verursachen auch Missbräuche einen grossen Schaden. Hier gilt es die Kosten gegeneinander abzuwägen.
+\end{itemize}
+
+\section{Solution}
+Wir müssen sicherstellen, dass sich sowohl die Benutzer gegenüber dem System, als auch das System gegenüber den Benutzern ausweist. Beide Seiten müssen sicherstellen, dass der jeweils Andere der ist, für den man ihn hält. Folgendes wird benötigt:
+
+\begin{itemize}
+  \item Identität für das System (Bsp. Server-Zertifikat)
+  \item Identität für den Benutzer (Bsp. Client-Zertifikat)
+  \item Ein Mechanismus welcher die Identität des Benutzers erfordert
+  \item Einen sicheren Kanal
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.6\textwidth]{18-known_partners-class-diagram}
+  \caption{Strukturdiagramm f\"ur Known Partners}
+\end{figure}
+
+\subsection{Implementation}
+Die häufigste Implementierung ist die Verwendung von digitalen Zertifikaten. Der Server weist sich meist mit einem Zertifikat von öffentlich, vertrauenswürdigen Zertifizierungsstelle aus. Auch der Client weisst sich anschliessend mit einem Zertifikat von einer öffentlichen Stelle oder von einer vom Serviceanbeter selbst aufgesetzter Zertifizierungsstelle (CA) aus. Die Überprüfung durch die Zertifizierungsstelle kann unterschiedlich Gewissenhaft gemacht worden sein. Es kann beispielsweise erforderlich sein, sich persönlich mit einem amtlichen Ausweise bei der CA identifizieren zu lassen.
+
+\subsection{Variants}
+Kombination mit anderen Authentisierungsmechanismen, Bsp zusätzlich ein Pin oder Passwort
+
+\section{Consequences}
+\begin{samepage}
+  \begin{itemize}
+      \pro{Erhöhung der Sicherheit sowohl für Anbieter als auch für Benutzer}
+      \con{Die Performance nimmt durch die Gegenseitigen checks ab.}
+      \con{Die Verfügbarkeit hängt vom "UserIdentity verification service" ab.}
+      \con{Das Verwalten der Benutzer wird aufwendiger und langsamer.}
+      \con{Höhere Kosten}
+  \end{itemize}
+\end{samepage}
+
