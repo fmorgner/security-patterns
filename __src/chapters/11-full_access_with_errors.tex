@@ -1,0 +1,59 @@
+\chapter{Full Access With Errors}
+
+\section{Context}
+Beim Designen von Interfaces eines Systems, in welchem Zugriffsbeschränkungen wie z.B. Nutzer Autorisation, auf Teile des Interfaces angewandt werden. Die meisten davon sind in GUI's, es können aber auch andere Interfacetypen sein.
+
+\section{Problem}
+Wenn man ein UI für ein System mit teilweiser Zugriffsbeschränkung erstellt, muss man entscheiden, ob man dem User Funktionalitäten, welche er mit der momentan von ihm eingenommenen Rolle nicht wahrnehmen kann, anzeigen will und wenn ja, wie? Dabei wird die Entscheidung erschwert, indem nicht bekannt ist, welche Rechte oder Kombinationen davon genutzt werden. Wie wird also momentan nicht verfügbare Funktionalität dargestellt?
+
+\section{Solution}
+Das System sollte so entworfen werden, dass jegliche Funktionalitäten im Interface ersichtlich sind. Wenn dann eine Funktion aufgerufen oder auf Daten zugegriffen wird, prüft das System zuerst die Rechte. Wenn der Zugriff gewährt wird, ist alles in Ordnung. Bei fehlenden Rechten wird eine Error-Nachricht erstellt und dem Nutzer angezeigt. Dabei kann die Nachricht dem Nutzer auch gleich eine Möglichkeit zum Upgrade oder Ändern seiner Rechte angeboten werden (z.B. Windows "Du bist kein Administrator"-Error, welcher auch gleich ein "Als Administrator ausführen"-Button hat.)
+
+Sehr komplizierte an mehrere Bedingungen geknüpfte Rechte können geprüft werden:
+The implementation of access right checks that are closely related to the function to be performed allows implementation of more sophisticated authorization schemas that depend on more than just a flag for an access right, such as data values used in the current transaction. For example, a bank might withhold the account statements of their bosses or of very rich clients from regular clerks, who could otherwise look at almost all accounts within their range of duty.
+Solch komplexe Rechtelogik ist in einem generischen Rechteverwaltungssystem beinahe nicht realisierbar.
+
+\subsection{Struktur}
+Bevor die tatsächliche Operation ausgeführt wird, wird überprüft ob der User auch Zugriff hat.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{11-full_access_with_errors-class-diagram}
+  \caption{Strukturdiagramm f\"ur Full Access With Errors}
+\end{figure}
+
+\subsection{Implementation}
+\begin{itemize}
+  \item Nutzer sollten keine Daten sehen, oder Operationen vornehmen können, auf welche sie keinen Zugriff haben.
+  \item Bei GUI-Anwendungen sollten dem Nutzer verfügbare und zugängliche Aktionen nicht versteckt werden.
+  \item In GUI's sollten sich Menü-Punkte auch bei einer Änderung der Rechte des Nutzers nicht nicht verschieben, damit "blindes" Benutzern möglich ist.
+  \item Im Fall von kommerziellem Interesse: Das Anzeigen von Pay-Functions kann den Nutzer dazu verleiten seine Rechte zu erweitern (die Software zu kaufen, Abo abzuschliessen).
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Es ist ein konsistenter Error-Handling Mechanismus verfügbar für Entwickler und die Errors sind dem Nutzer bekannt.}
+    \pro{Dokumentation und Trainingsmaterial für eine solche Software ist konsistent für alle Nutzungsbereiche (Manager und Angestellter kann dieselbe Software nutzen)}
+    \pro{Gut wenn der Nutzer seine Rechte on the fly updaten kann.}
+    \pro{Gut wo Kenntnis alleine nicht ausreicht (z.B. ein Downloadlink, der nur für eingeloggte Benutzer sein sollte)}
+    \con{Das Try and Error Prinzip kann echt an den Nerven zerren (Astah)}
+    \con{Jede Kleinigkeit muss Rechte prüfen, dies kostet Rechenzeit und kann zu duplicate Code oder sogar Sicherheitslücken führen.}
+    \con{Das Anzeigen aller Funktionen kann zu extrem unübersichtlichen GUI's führen.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item Überschreiben einer Datei, dabei wird dem Nutzer die Nachricht präsentiert, dass benanntes File bereits existiert, und nachgefragt, ob er selbiges überschreiben will (Upgrade der Rechte des Editors)
+  \item Windows Rechte-Upgrade prompt
+  \item Astah Community Edition
+  \item Unix $\to$ jedes Programm kann auf "beinahe" jedes File angewandt werden, oftmals hat man einfach keine Rechte auf das Programm oder das File.
+  \item Für stabile download URL's, wobei z.B. auf ein Cookie geprüft wird, welches nur eingeloggte User haben, anstatt anzunehmen, dass nur legitime Nutzer den Link kennen.
+  \item Toiletten in Frankreich, die keinen Besetztindikator aufweisen.
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item SAP \& Check Point (kann für Full Access With Errors verwendet werden)
+  \item Minimize Human Intervention (wird durch error-Messages direkt angegriffen)
+\end{itemize}
+

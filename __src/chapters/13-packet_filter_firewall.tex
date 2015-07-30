@@ -1,0 +1,55 @@
+\chapter{Packet Filter Firewall}
+
+\section{Context}
+Verbindungen zwischen Netzen, welche nicht die gleiche "Sicherheits- oder Vertrauensstufe" besitzen. Ein Client im Netz sendet und empfängt diverse Pakete über die Netzgrenze hinaus.
+
+\section{Problem}
+Clients müssen über die Netzgrenze hinaus kommunizieren können. Was kann unternommen werden, wenn ein fremder Host als bösartig identifiziert wurde?
+
+\section{Solution}
+Der Einsatz einer Firewall, welche auf einem Port "P" jedes Paket anschaut und danach mittels Regeln entscheidet, was z.B. mit Paketen von/an Adresse "A" geschehen soll. Die Regeln werden dabei in einer Kaskade abgearbeitet, dabei sollte die spezifischste zuerst und die generischste zuletzt angeführt werden. Die letzte Regel ist die Defaultregel, welche zumeist entweder "Alles Blockieren" oder "Alles Erlauben" enthält.
+
+\subsection{Structure}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{13-packet_filter_firewall-class-diagram}
+  \caption{Strukturdiagramm f\"ur Packet Filter Firewall}
+\end{figure}
+
+\subsection{Dynamics}
+Das Sequenzdiagramm zeigt einen fremden Client, welcher durch die PF-FW kommunizieren möchte. Auf den Request werden beim Passieren der Firewall die Regeln angewendet.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{13-packet_filter_firewall-sequence-diagram}
+  \caption{Sequenzdiagramm f\"ur Packet Filter Firewall}
+\end{figure}
+
+\subsection{Implementation}
+Die Implementation dieses Patterns erfolgt in verschiedenen Schritten:
+\begin{enumerate}
+  \item Die Unternehmens-Policies auf das Internet "abbilden", es also in "böse" Seiten und "gute" Seiten unterteilen.
+  \item Firewallregeln daraus erstellen, dies kann manuell oder automatisch (z.B. mit Solsoft) geschehen.
+  \item Firewalls installieren. Dabei muss bedacht werden, dass es nicht immer einen Single Access Point gibt, sondern auch mehrere zu kontrollierende Grenzen existieren können.
+  \item Die Regeln in den Firewalls installieren, auch hier manuell oder automatisch (z.B. mit Solsoft)
+  \item Die Firewalls mit der entsprechenden Standardarchitektur konfigurieren.
+\end{enumerate}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Der IP-Verkehr wird an den Netzgrenzen gefiltert. Dies reduziert das Risiko mit gefährlichen Netzen oder Hosts zu kommunizieren.}
+    \pro{Regeln können einfach erstellt, installiert und angepasst werden.}
+    \pro{Bei einer Umsetzung in Hardware zeigt diese Lösung eine hohe Performance und ermöglicht eine Aufzeichnung jeglicher empfangenen Pakete und den dafür gefällten Entscheidungen.}
+    \con{Level-3 Firewalls können keine Angriffe auf höheren Schichten verhindern.}
+    \con{Verteilte Angriffe können nicht mittels IP matching verhindert werden.}
+    \con{Alle Grenzen müssen mit Firewalls gesichert werden. Es dürfen keine andere Wege ins und aus dem Netz geben, also keine unvorhergesehene Tunnels oder VPN's wie Hamachi.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item \textbf{IPTables} ist sowohl eine Packet Filtering als auch eine Stateful Firewall
+  \item \textbf{IPFW} ist sowohl eine Packet Filtering als auch eine Stateful Firewall
+  \item \textbf{PF} ist sowohl eine Packet Filtering als auch eine Stateful Firewall
+\end{itemize}
+
+

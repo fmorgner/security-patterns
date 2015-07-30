@@ -1,0 +1,69 @@
+\chapter{Limited Access}
+
+Auch bekannt als:
+\begin{itemize}
+  \item Limited View
+  \item Blinders
+  \item Child Proofing
+  \item Invisible Road Blocks
+  \item Hiding the cookie jars
+  \item Early Authorization
+\end{itemize}
+
+\section{Summary}
+LimitedAccess ist sehr nah mit "Full Access with Errors" verwandt. LimitedAccess sagt aber, dass nur die verfügbaren Funktionen anhand der Rechte angezeigt werden sollen.
+
+\section{Context}
+Interfacedefinition von Systemen bei denen unterschiedliche Zugriffsrechte vergeben werden. Dieses Pattern ist eher im Bereich Userinterface anzusiedeln.
+
+\section{Problem}
+Einem Benutzer allen potentiell verfügbaren Funktionen anzuzeigen kann ein Sicherheitsproblem sein. Es ist nicht gewollt, dass der Benutzer Zugriff auf Funktionen hat oder dass er überhaupt weiss, das es die Funktion gibt. Wird ein System von Benutzern mit unterschiedlichen Fähigkeiten und Zugriffsrechten benutzt, so führt es zu Schwierigkeiten, falls jede Funktion jedem Benutzer angezeigt wird (vgl. Full Access with Errors). Es ist sehr viel benutzerfreundlicher, wenn nur angezeigt wird, was wirklich möglich ist. Folgende muss beachtet werden:
+
+\begin{itemize}
+  \item Benutzer sollen keine Operationen oder Daten sehen, für die sie nicht berechtigt sind.
+  \item Benutzer sollen nicht andauernd mit Meldungen über Zugriffsbeschränkungen belästigt werden.
+  \item Input validation ist einfacher, wenn der Benutzer nur sieht wozu er berechtigt ist.
+  \item Wenn sich das Userinterface ändert, weil Berechtigungen hinzukommen oder entfernt werden, so kann das die Benutzer verwirren und die Produktivität wird verringert.
+\end{itemize}
+
+\section{Solution}
+Den Benutzer nur sehen lassen, wozu er Rechte hat. In einem GUI nur die Auswahl und Menus Zeigen, wozu er Berechtigt ist. Zum Beispiel, wenn ein Benutzer nicht berechtigt ist die Daten zu ändern, dann sollen die Daten nur in einem ReadOnly-Feld angezeigt werden und kein Button zum editieren sichtbar sein. Das Pattern geht nicht näher auf konkrete Umsetzung ein, aber die Idee ist, dass im Interface-Builder nur gezeichnet wird, auf was auch zugegriffen werden kann. Es können die selben Mechanismen benutzt werden, die auch oft zum vorübergehenden deaktivieren von Schaltflächen benutzt werden. Zum Beispiel wenn kein Text ausgewählt ist, dann kann auch nichts ausgeschnitten oder kopiert werden.
+
+\subsection{Structure}
+Im Unterschied zu "Full Access with Errors" werden die Berechtigungen VOR dem zeichnen des Userinterfaces ausgewertet um entscheiden zu können, WAS überhaupt gezeichnet wird.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{12-limited_access-class-diagram}
+  \caption{Strukturdiagramm f\"ur Limited Access}
+\end{figure}
+
+\subsection{Implementation}
+\begin{itemize}
+  \item Als erstes muss es eine Implementation der Zuordnung von Benutzern zu Rechten geben. Hier bieten sich SECURITY SESSION und CHECK POINT an.
+  \item Jetzt muss festgelegt werden, wie bestimmte Rechte im User-Interface abgebildet werden. Welche UI-Elemente kann ein Benutzer mit den jeweiligen Rechten sehen. Wenn die Logik um zu entscheiden, was ein Benutzer sehen darf sehr komplex ist, bietet sich entweder SECURITY SESSION als "Puffer" an, oder man kann FULL ACCESS WITH ERRORS verwenden. Es ist auch möglich rollenspeziefische UI zu verwenden, wenn ROLE BASED ACCESS CONTROL eingesetzt wird.
+  \item Es muss entschieden werden, wie nicht-zugreifbare Elemente dargestellt werden. Für Daten empfiehlt es sich ganz auszublenden. Bei Menüelementen und Knöpfen ist es empfehlenswert die meistens eingebaute Enabled/Disabled Funktionalität zu nutzen.
+  \item Zu letzt muss sichergestellt werden, dass man sich bei verteilten Systemen zu sehr auf da UI verlässt. Beispielsweisse könnte ein MitM einen GUI Zugriff simulieren, welcher durch die Checks im GUI verhindert worden wäre, ohne jemals das GUI zu "berühren".
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Der Benutzer sieht Daten für die er nicht authorisiert ist gar nicht erst.}
+    \pro{Der Entwickler muss sich nicht darum kümmern ob ein Zugriff erlaubt ist. ACHTUNG: z.B. bei Web-UIs muss trotzdem der Zugriff Serverseitig geprüft werden.}
+    \pro{Benutzer-Frustration wird verringert.}
+    \con{Durch das fehlen von UI-Elementen kann der Benutzer verwirrt werden.}
+    \con{Das UI kann "kaputtgehen" wenn Elemente entfernt werden. Deshalb bietet es sich an, diese Elemente auszugrauen.}
+    \con{Retrofitting kann sich schwierig gestallten, wenn der Code für das UI stark verteilt ist.}
+\end{itemize}
+
+\section{Known Uses}
+In den meisten Betriebssystemen wird LIMITED ACCESS eingesetzt. Beispielsweise in den Sytemeinstellungen von OS X sind gewisse Bedienelemnte wie zum Beispiel die Firewall-Steuerung ausgegraut, bis sich der Benutzer authentisiert hat.
+Firewalls selber setzen ähnliche Mechanismen ein. Beispielsweise können sie so konfiguriert werden, dass sie nichtautorisierte Pakete einfach verwerfen, statt mit TCP REJECTED oder ähnlichem zu antworten.
+
+\section{Relationships}
+\begin{itemize}
+  \item CHECK POINT
+  \item SECURITY SESSION
+  \item ROLE BASE ACCESS CONTROL
+\end{itemize}
+
