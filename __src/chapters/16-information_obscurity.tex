@@ -1,0 +1,62 @@
+\chapter{Information Obscurity}
+
+\section{Context}
+Jedes System, welches mit anderen Entitäten interagieren muss, ist Attacken von internen oder externen Quellen ausgesetzt. Falls auf diesem System sensible Informationen gespeichert sind, müssen diese geschützt werden.
+
+\section{Problem}
+\begin{itemize}
+  \item Sensible Daten sollten verschlüsselt werden. Die Verschlüsselung sollte nur auf die sensiblen Daten beschränkt werden, da die Crypto-Operationen sehr ressourcenintensiv sind.
+  \item Die Entschlüsselungsschlüssel müssen dem Server zur Verfügung stehen, damit die Daten überhaupt nutzbar sind.
+  \item Diese Schlüssel müssen geschützt werden, ansonsten ist die ganze Verschlüsselung nutzlos.
+\end{itemize}
+
+\section{Solution}
+\begin{enumerate}
+  \item Daten sollten klassifiziert werden und nur die Sensiblen sollten verschlüsselt werden.
+  \item Die Schlüssel müssen sicher gelagert werden, so dass sie für den Server zugänglich sind.
+\end{enumerate}
+
+Folgende Elemente werden benötigt und stehen in der abgebildeten Beziehung zueinander:
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{16-information_obscurity-class-diagram}
+  \caption{Strukturdiagramm f\"ur Information Obscurity}
+\end{figure}
+
+Der Key sollte also nicht auf dem Server mit den Daten selbst aufbewahrt werden, sondern an einem sicheren Ort. In der Abbildung ist der sichere Ort zur Aufbewahrung und der Ort, an dem der Schlüssel generiert wurde derselbe, dies muss jedoch nicht so sein.
+
+\subsection{Implementation}
+Nur die sensitiven Daten müssen geschützt werden. Und der Schlüssel sollte nicht direkt zugänglich sein.
+
+\subsubsection{Persistenz}
+Wo und wie werden die sensiblen Daten gespeichert? Sind die Daten geeignet für eine Datenbank, oder sind sie zu gross?
+
+\subsubsection{System}
+Das System kann, falls notwendig, unterteilt werden. Dann werden sensiblere Daten in einer stärker abgeschirmten Umgebung aufbewahrt als sich die [web, usw.]Server befinden. Die Server liegen in einer DMZ, welche einen höheren Grad von externem Zugriff gewähren.
+Falls sich Daten auf externen Entitäten befinden, dann müssen diese Daten natürlich auch geschützt werden. Aus diesem Grund kann Information Obscurity mit dem Pattern Secure Channel kombiniert werden.
+
+\subsubsection{Konfigurationsverschleierung}
+Da die Schlüssel usw nicht verschlüsselt werden können, werden diese Daten eher versteckt.
+
+\begin{itemize}
+  \item Daten nur lokal zugänglich machen (DMZ)
+  \item Die Information, welcher Schlüssel der richtige ist nicht offenzulegen
+  \item Dateien auch ihrem Namen nach unkenntlich machen
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Angreifer können sich nicht so einfach von einem System zum nächsten durchhangeln.}
+    \pro{Angreifer kann aufgrund der Verschleierung je nach dem den Wert von Daten nicht erkennen}
+    \con{Das Ablegen und das Verteilen der Schlüssel ist aufwendig}
+    \con{Bei einem erfolgreichen Angriff auf den Schlüsselserver kann sich der Angreifer zugriff auf weitere Systeme verschaffen. (Authentisieren von Servern gegenüber den Keyservern)}
+    \con{Zusätzliche Management Abläufe sind nötig wie zum Beispiel Key-Management.}
+\end{itemize}
+
+\section{Relationships}
+\begin{itemize}
+  \item DEMILITARIZED ZONE
+  \item KNOWN PARTNERS
+\end{itemize}
+

@@ -21,9 +21,12 @@
 \PassOptionsToPackage{table,xcdraw}{xcolor}
 \setsvg{inkscape=inkscape -z -D,svgpath=__src/svg/}
 
-\linespread{1.5}
-
 \setlength\parindent{0pt}
+\linespread{1.3}
+
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
 
 \renewcommand{\labelenumi}{\alph{enumi}.}
 
@@ -57,5 +60,6 @@
 \inputChapter{13-packet_filter_firewall}
 \inputChapter{14-proxy_based_firewall}
 \inputChapter{15-stateful_firewall}
+\inputChapter{16-information_obscurity}
 
 \end{document}
