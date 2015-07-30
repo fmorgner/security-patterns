@@ -1,0 +1,54 @@
+\chapter{Controlled Object Monitor}
+
+\section{Summary}
+Dieses Pattern macht dort weiter wo das letzte aufgehört hat. Es reicht nicht Berechtigungen festzulegen, sie müssen auch durchgesetzt werden.
+
+\section{Context}
+Wir betrachten ein reguläres Multi-User-Betriebssystem. In dieser Umgebung gibt es verschiedene Benutzer und (möglicherweisse sensible) Resourcen. Hier müssen Berechtigungen durchgesetzt werden.
+
+\section{Problem}
+Wir haben zwar Berechtigungen festgelegt, aber nun müssen wir diese auch durchsetzen wenn ein Prozes versucht auf ein Objekt zuzugreifen. Folgende Anforderungen müssen erfüllt werden:
+\begin{itemize}
+  \item Restriktionen MÜSSEN durchgesetzt werden
+  \item Verschiedene Arten des Zugriffs müssen unterschieden werden können
+\end{itemize}
+
+\section{Solution}
+Um das Problem zu lösen, setzen wir einen REFERENCE MONITOR ein. Dieser fängt jeden Zugriffsversuch ab un prüft ob er legal ist.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{23-controlled_object_monitor-class-diagram}
+  \caption{Strukturdiagramm f\"ur Controlled Object Monitor}
+\end{figure}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Jeder Zugriff wird geprüft}
+    \pro{Zugriffsregelungen können feingranular eingestellt werden}
+    \con{Die Zugriffsregeln müssen geschützt werden}
+    \con{Overhead durch Überprüfung jedes Zugriffs}
+\end{itemize}
+
+\section{Known Uses}
+\subsection{Windows NT}
+Das Security Subsystem besteht aus 3 Komponenten:
+\begin{itemize}
+    \item Local Security Authority (LSA)
+    \item Security Account Manager (SAM)
+    \item Security Reference Monitor (SRM)
+\end{itemize}
+Die LSA und der SAM erzeugen gemeinsam ein Security-Token für einen Benutzer. Bei einem Zugriff auf einen Resource werden der Security Descriptor der Resource und die Secure ID des Benutzers verglichen. Der SRM führt diese Überprüfung durch und gewährt den Zugriff wenn der Benutzer SID zur ACL der Resource passt.
+
+\subsection{Linux}
+Unter Linux werden ACLs mittels Extended Attributes im Dateisystem abgebildet. Bei der Erzeugung von Objekten (z.B. via creat()/open()) wird die Default-ACL auf das Objekt angewendet, welche die Standard Datei-Attribute 1:1 abbildet. Wird auf existierende Resource zugegriffen, muss anders als bei Windows kein zusätzlicher Parameter angegeben werden. Das Betriebssystem erkennt das Vorhandensein der EAs/ACL und prüft diese automatisch.
+\\
+\begin{additional}[Links]
+  \begin{itemize}
+      \item Siehe DEFCON 22 Talk verlinkt im vorhergehend Kapitel
+      \item POSIX Access Control Lists on Linux - Grünbacher - \url{http://users.suse.com/~agruen/acl/linux-acls/online/}
+      \item Access Control Lists in Linux \& Windows - Nagendra \& Chen - \url{http://compas.cs.stonybrook.edu/~nhonarmand/courses/fa14/cse506.2/slides/ACLs-Vasu_and_Yaohui.pdf}
+      \item POSIX.1e (Withdrawn) - \url{http://wt.tuxomania.net/publications/posix.1e/download.html}
+  \end{itemize}
+\end{additional}
+
