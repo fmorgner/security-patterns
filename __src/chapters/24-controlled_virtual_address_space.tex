@@ -1,0 +1,53 @@
+\chapter{Controlled Virtual Address Space}
+
+\section{Context}
+Multiusersysteme, welche gleichzeitig mehrere Prozesse laufen lassen können. Die Userprozesse müssen den verfügbaren Speicher also kontrolliert teilen können. Dazu läuft jeder Prozess in seinem eignen Adressraum. Typische erlaubte Zugriffsarten sind: Lesen, Schreiben und ausführen. Feinere Unterteilungen sind natürlich auch möglich.
+
+\subsection{Example}
+Unser OS wurde mit einem REFERENCE MONITOR ausgestattet, jedoch haben Hacker entdeckt, dass die Zugriffe auf den Primärspeicher nur grob abgesichert sind. Indem sie diese Schwachstellen ausnutzten konnten sie sich Zugriff auf die Speicherbereiche anderer Prozesse verschaffen.
+
+\section{Problem}
+Die Speicherzugriffe der Prozess müssen kontrolliert werden, ansonsten können sie in fremde Speicherbereiche schreiben oder private Informationen auslesen. Diese Angriffe könnten auch zu einer Rechteeskalation führen, welche es erlaubt grössere Teile des Systems zu übernehmen. Folgendes muss gelöst werden:
+\begin{itemize}
+  \item Es müssen für jede Logikeinheit des VAS Zugriffsrechte festgelegt werden so, dass ein sicheres und kontrolliertes teilen des VAS möglich ist.
+  \item Wir brauchen eine Lösung, welche alle Arten von Speicher-Adressstrukturen abdeckt.
+  \item Obwohl wir eine generische Lösung haben, welche auf jeder Hardware umsetzbar ist, muss die Hardware jeweils die notwendigen Funktionalitäten bieten.
+\end{itemize}
+
+
+\section{Solution}
+Wir unterteilen den VAS in mit den logic units korrespondierende Segmente. Denen weisen wir Deskriptoren zu, welche die Zugriffsrechte, die Startadresse und die Endadresse des Segments aufweisen.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.5\textwidth]{24-controlled_virtual_address_space-class-diagram}
+  \caption{Strukturdiagramm f\"ur Controlled Virtual Address Space}
+\end{figure}
+
+\subsection{Implementation}
+Einige wichtige Aspekte:
+\begin{itemize}
+  \item Die Überprüfung der Zugriffsrechte muss im Instruktionsmicrocode realisiert werden, ansonsten sind die Laufzeiten zu lange. -> REFERENCE MONITOR im Hardware Microcode.
+  \item Dieselbe Idee wird auch auf Kachelverwaltungen (Nur selten wird die deutsche Bezeichnung Kachelverwaltung verwendet. Quelle Wikipedia =D ) angewendet. Mit der Ausnahme, dass die Limits in den Deskriptoren auf die Kachelgrössen angepasst werden. Und deshalb nur eine eher grobe Sicherheitskontrolle realisiert werden kann.
+  \item Die beiden Standardimplementationen:
+    \begin{enumerate}
+      \item Property descriptor systems. Der Deskriptor wird beim erzeugen des Prozesses vom OS geladen. Die Deskriptoren werden mittels Spezialregister verwaltet und werden mit dem Ende des Prozesses entladen.
+      \item Capability systems. Ein vertrauenswürdiger Bereich des OS verteilt eine Art von Token an die Programme. Programme besitzen diese Token, damit sie verwendet werden können lädt das Os sie in ein spezielles Register, oder ein Speichersegment.
+    \end{enumerate}
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Das Pattern kann auf alle Arten von VAS angewendet werden (single, segregated, split)}
+    \pro{Wenn alle Ressourcen auf den VAS gemappt werden, kann das Pattern die Zugriffe auf jegliche Ressourcen verwalten.}
+    \con{Die Segmentierung macht die Speicherverwaltung ineffizient, weil es externe Fragementierung fördert.}
+    \con{Es wird Hardware-Support benötigt.}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item IBM S/38
+  \item IBM S/6000
+  \item Intel X86
+\end{itemize}
+
