@@ -1,0 +1,41 @@
+\chapter{Execution Domain}
+
+\section{Summary}
+Ein nicht autorisierter Prozess kann Informationen in Dateien oder Datenbanken zerstören oder anpassen. Deshalb sollte eine Umgebung für die Prozesse definiert werden, wo strikt festgelegt ist, auf welche Ressourcen zugegriffen werden dürfen. Ebenso soll die Art des Zugriffs auf die Ressource festgelegt sein.
+
+\section{Context}
+Es geht um einen Prozess, der im Namen eines Benutzer, einer Gruppe oder einer Rolle ausgeführt wird. Dieser Prozess braucht Zugriffsrechte auf Ressourcen, die er zur Erledigung seiner Aufgabe benötigt. Die Auswahl an Zugriffsrechten definiert die Ausführungs-Domäne (Execution Domain). Manchmal kann es auch nötig sein, dass der Prozess seine Domäne wechselt, damit er seine Arbeit erledigen kann. Beispielsweise um Daten aus einer Datei auszulesen, die einem anderen Benutzer gehört. Oft werden die Domänen hierarchisch in einem Baum strukturiert, der genau eine Root-Domäne besitzt.
+
+\section{Problem}
+Den Prozess im Zugriff einzuschränken ist ein erster Schritt um bösartiges Verhalten zu kontrollieren. Andernfalls kann ein unauthorisiereer Prozess Daten in Dateien oder Datenbanken zerstören oder verändern oder auch die Ausführung eines anderen Prozesses beeinflussen. Folgendes muss berücksichtigt werden:
+\begin{itemize}
+  \item Eine Einschränkung der Aktionen von Prozessen während deren Ausführung ist nötig, andernfalls können kann er unberechtigte Aktionen durchführen.
+  \item Ressourcen, typischerweise Speicher und I/O Geräte aber auch Daten Strukturen sind heterogen, aber wir möchten sie gleichartig behandeln.
+\end{itemize}
+
+\section{Solution}
+Verwende Deskriptoren welche die Rechte des Prozesses repräsentieren. Sammle die Deskriptoren in einer Execution Domain. Diese Execution Domains können verschachtelt werden.
+CONTROLLED PROCESS CREATOR und CONTROLLED OBJECT MONITOR arbeiten mit diesem Pattern zusammen.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{25-execution_domain-class-diagram}
+  \caption{Strukturdiagramm f\"ur Execution Domain}
+\end{figure}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Das Pattern ermöglich die Anwendung von "least Privilege to processes", wo die Prozesse nur die nötigen Rechte bekommen.}
+    \pro{Es kann benutzt werden um den Zugriff auf eine Ressource von beliebigem Typ zu beschreiben.}
+    \pro{Ein Prozess kann mehrere (verschachtelte) Execution Domains haben.}
+    \pro{Das Modell schränkt die Implementierung nicht ein.}
+    \con{Komplexität, Performance, Implementationsabhängigkeit}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+  \item Multics
+  \item IBM AIX
+  \item JVM
+\end{itemize}
+
