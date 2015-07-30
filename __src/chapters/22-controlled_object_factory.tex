@@ -1,0 +1,44 @@
+\chapter{Controlled Object Factory}
+
+\section{Context}
+Wir betrachten ein Computersystem in welchem ein Prozess mittels einer Factory (GoF: FACTORY METHOD, ABSTRACT FACTORY) ein Objekt erzeugt. Nun stellt sic die Frage, welche Rechte der erstellende Prozess an diesem Objekt hat, und welche Rechte andere Prozesse besitzen.
+
+\section{Problem}
+Prozesse in einem Computer-System benötigen oftmals diverse Resourcen (Sockets, File-Handles, Serial-Terminals, ...) um ihre Aufgaben erldigen zu können. Bei der Erzeugung/Allocation dieser Resourcen, müssen gleichzeitig die Berechtigungen an den selbigen festgelegt werden, so dass (nur) der erzeugende Prozess die Resourcen verwenden darf. Eine Lösung muss folgende Eigenschaften aufweisen:
+\begin{itemize}
+  \item Verschiedenartige Objekte müssen gleich behandelt werden können, damit leicht eine Standard-Policy verwendet werden kann.
+  \item Resourcen aus einen Pool müssen dynamisch geregelt werden können.
+  \item Die Regeln welche den Zugriff auf neue Objekte festlegen müssen bei der Erstellung angewendet werden.
+\end{itemize}
+
+\section{Solution}
+Immer wenn ein Objekt/eine Resource angelegt wird, wird festgelegt wer wie zugreifen kann.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.6\textwidth]{22-controlled_object_factory-class-diagram}
+  \caption{Strukturdiagramm f\"ur Controlled Object Factory}
+\end{figure}
+
+\subsection{Implementation}
+Jedes Objekt kann eine ACL zugeordnet bekommen. Die Einträge der ACL regeln welcher Benutzer welche Rechte an der Datei besitzt.
+Ein Alternativer weg ist die Verwendung sogenannter "Capabilities" (dt. Fähigkeiten). Im Gegensatz zu einer ACL sind Capabilities nicht direkt dem Objekt zugeordnet sondern un einer zentralen Matrix abgelegt. Um auf ein Objekt zugreifen zu können muss ein Prozess bestimmte Capabilites besitzen.
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Es gibt keine Objekte mit "Default"-Berechtigungen}
+    \pro{Objekte können aufgrund ihrer Sensibilität eingestuft werden}
+    \pro{Objekte aus Resource-Pools bekommen ihre Berechtigungen dynamisch}
+    \pro{Das Betriebssystem kann Eingentümer-Berechtigungen auf Objekte anwenden}
+    \con{Es gibt einen gewissen Overhead}
+    \con{Die Initial-Rechte können unklar sein}
+\end{itemize}
+
+\section{Known Uses}
+Die Win32 API verwendet für System-Call wie Create einen Parameter der eine sogennante DACL darstellt. Der Systemkern wendet dann die DACL auf das Objekt an und gibt dem Prozess einen Handle zurück.
+\\
+\begin{additional}[Links]
+  \begin{itemize}
+    \item DEFCON 22 - We Wrapped Samba So You Dont Have To - Morris \& McAtee - \url{https://www.youtube.com/watch?v=Xsz5X_ueNgw}
+  \end{itemize}
+\end{additional}
