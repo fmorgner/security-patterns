@@ -1,0 +1,54 @@
+\chapter{Demilitarized Zone}
+
+\section{Context}
+Wir betrachten einen Dienstleister, welcher Web-Services im Finanzbereich anbietet. Die Firma verfügt über mehrere Apllication Server, welche die dynamischen Inhalte erzeugen und liefern. Des Weiteren verwendet sie weitere Server um die statischen Inhalte zu liefern. Die Application-Server müssen Zugriff auf Benutzerdaten und Missionskritische Funktionen haben.
+
+\section{Problem}
+Das Internet ist kein "freundlicher" Ort. Dienste welche über das Internet erreicht werden können, sind regelmässig das Ziel von Angriffen und Einbrüchen. Wir müssen folgende Probleme lösen:
+\begin{itemize}
+  \item Beliebig starke Sicherheitslösungen sind auch beliebig teuer. Wir müssen einen Zwischenweg zwischen extremer Sicherheit und Kosten finden. Ist gilt auch zu beachten, das kriminelle Elemente mit höherer Energie einen Angriff duchrführen, wenn die möglichen Gewinne hoch sind.
+  \item Wir haben verschiedene Systeme, welche verschiedene Sicherheitanforderungen aufweisen. Kann ein Einbrecher in den Image-Cache-Server einbrechen, sollte er nicht in der Lage sein auf das Kundeverwaltungs- oder Buchhaltungssystem zuzugreifen.
+\end{itemize}
+
+\section{Solution}
+Wir kreieren einen Bereich in unserem Netzwerk welcher sowohl gegen die Aussenwelt als auch in Richtung des internen Netzes abgeschirmt ist. Dieser Bereich heisst DMZ. Die Benamsung kommt aus dem militärischen Umfeld und beschreibt dort eine Region zwischen zwei angrenzenden Ländern, in welchem beidseitig keine militärischen Aktivitäten erlaubt sind. Diese DMZ wirkt nun als Puffer zwischen internen Systemen un dem Internet.
+
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{19-demilitarized_zone-class-diagram}
+  \caption{Strukturdiagramm f\"ur Demilitarized Zone}
+\end{figure}
+
+\subsection{Elements}
+\begin{itemize}
+  \item Der externe Router sorgt dafür, dass eingehender Traffic zur Firewall geleitet wird.
+  \item Die Firewall prüft die eingehenden Anfragen. siehe STATEFUL FIREWALL, PROXY-BASED FIREWALL
+  \item Die Webserver liefern statischen Inhalt. Für dynamische Inhalte agieren sie als PROTECTION REVERSE PROXY für die Application Server, welche sich im internen Netz befinden.
+  \item Der interne Router leitet legitime Anfragen in Intranet weiter.
+\end{itemize}
+
+\subsection{Implementation}
+\begin{itemize}
+  \item Zuerst sollte eine physische Trennung von Web- und Application-Servern hergestellt werden. Dies erlaubt eine bessere Trennung der Netze.
+  \item Wir installieren nun einen exteren Router und eine Firewall. Der Externe Router kennt nur Routen in die DMZ und kann nicht direkt ins Intranet routen. Wir konfigurieren nun die Firewall entsprechend unserer Sicherheitsanforderungen bezüglich des Zugriffs auf unsere Webserver.
+  \item Wir 'härten' unsere Webserver, in dem wir jegliche nicht benötigte Funktionalität entfernen.
+  \item Wir installieren den internen Router, welche nur Verbindungen zwischen unseren Web- und Application-Servern routet. Der interne Router ist eine weitere Schutzstufe für unser Netzwerk uns sollte auch als seperate Hardware ausgelegt sein. Dies verhindert das Eindringen in unser internes Netz falls der externe Router kompromittiert wird.
+\end{itemize}
+
+Eine DMZ kann auch mehrstufig aufgebaut werden, um so verschieden schützenswerte Services zu trennen.
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Erhöhte Sicherheit}
+    \pro{Konfigurierbare Sicherheitsstufen}
+    \pro{Von aussen sind unsere DMZ "transparent"}
+    \pro{Weniger Systeme sind direkten Angriffen ausgeliefert.}
+    \con{Die Verfügbarkeit ist möglicherweisse reduziert, da wir die Firewall als Single-Point-of-Failure haben.}
+    \con{Die Verwaltbarkeit is reduziert, da wir auch von innen nicht beliebig auf die Server in der DMZ zugreifen können.}
+    \con{Erhöhte Kosten}
+    \con{Leistungseinbussen durch das Packet-Filtering}
+\end{itemize}
+
+\section{Known Uses}
+DMZs sind extrem weit verbreitet und werden von den meisten Firmen eingesetzt. Auch die HSR setzt eine DMZ ein um zum Beispiel die V-Server für Projekte vom internen Netz zu trennen.
+
