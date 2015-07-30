@@ -1,0 +1,53 @@
+\chapter{Controlled Execution Environment}
+
+\section{Context}
+Wir betrachten einen Prozess in der Ausführung. Der Prozess läuft mit den Berechtigungen des Benutzer (Subjekts) welcher ihn gestartet hat. Die Zugriffsrechte, welche er auf diese Weise erhält, nennen wir die "Execution Domain". Wichtig ist, dass sich Prozesse gewisse Resourcen teilen können.
+
+\section{Problem}
+Wir haben zwar eine "Execution Domain" für unseren Prozess festgelegt, jedoch haben wir keinen Mechanismus diese durch zu setzen. Deshalb kann ein Prozess beliebig auch Speicher und andere Resourcen wir Dateien zugreifen. Im schlimmsten Fall ist er in der Lage, die Herrschaft über das Betriebssystem zu erlangen. Eine Lösung für dieses Problem muss folgende Anforderungen erfüllen:
+\begin{itemize}
+  \item Die Berechtigungen müssen durchgesetzt werden.
+  \item Wir wollen alle Subjekte einheitlich behandeln.
+  \item Wir wollen alle Resourcen einheitlich behandeln.
+  \item Wir wollen erlauben, dass "Execution Domains" geschachtelt sind
+  \item Wir wollen den Prozess mit einenm Minimum an Berechtigungen ausstatten.
+  \item Wir wollen keine spezielle Implementation erzwingen.
+\end{itemize}
+
+\section{Solution}
+Wir verwenden AUTHORIZATION um die Rechte eines Subjekts (Benutzer/Gruppe/etc.) fest zu legen. Aus diesen Rechten leiten wir die Berechtigungen von Prozessen ab. Wir setzten dann CONTROLLED OBJECT MONITOR (letzte Übung) ein, um die Berechtigungen durch zu setzen.
+
+\subsection{Structure}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.5\textwidth]{26-controlled_execution_environment-class-diagram}
+  \caption{Strukturdiagramm f\"ur Controlled Execution Environment}
+\end{figure}
+
+\subsection{Dynamics}
+\begin{samepage}
+Ein Beispiel für einen Aufruf der Funktion do\_something() auf einem x
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{26-controlled_execution_environment-sequence-diagram}
+  \caption{Sequenzdiagramm f\"ur Controlled Execution Environment}
+\end{figure}
+\end{samepage}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{"Least privileges"-Prinzip kann angewendet werden}
+    \pro{Keine Abhängigkeit von der Art der Resourcen}
+    \pro{Subjekte können eine Beliebige Anzahl Prozesse starten}
+    \con{Erhöhte Komplexität}
+    \con{Möglicher Weisse Hardwareabhängig}
+\end{itemize}
+
+\section{Known Uses}
+\begin{itemize}
+\item IBM S/38
+\item SELinux
+\item Capsicum
+\item seL4
+\end{itemize}
+
