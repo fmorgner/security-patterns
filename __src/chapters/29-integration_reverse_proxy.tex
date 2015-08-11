@@ -1,0 +1,47 @@
+\chapter{Integration Reverse Proxy}
+
+\section{Problem}
+\begin{itemize}
+  \item Eine Gruppierung von Systemen, die jeweils aus bestimmten Gründen auf eigenen Maschinen laufen müssen.
+  \item Diese Gruppierung sollte aus usability-Gründen trotz IP-Adressierung nicht direkt so dem Kunden dargeboten werden.
+  \item Die Schnittstellen ywischen den einzelnen Maschinen soll sich nie ändern, auch nicht, wenn die Maschinen neu konfiguriert werden.
+  \item Falls einzelne Instanzen der Systeme nicht mehr ausreichen, soll eine, die Last verteilende, Lösung möglich sein.
+  \item Wenn gleichzeitig noch Protection Reverse Proxy eingesetzt wird, sollte es möglich sein nur ein einzelnes SSL Certificat zu verwenden, statt für jede Maschine eines.
+  \item Ausserdem sollen Backend Schnittstellen zwischen einzelnen Applikationshosts sich nicht ändern, auch wenn die dahinter liegenden Hosts rekonfiguriert werden. Dies stellt die Flexibilität bei Änderungen am Backend sicher.
+\end{itemize}
+
+\section{Solution}
+\begin{itemize}
+  \item Implementiere den IRP, welcher auf der Internet-Seite eine IP-Adresse/URL aufweist.
+  \item Mappe alle URLs der Maschinen auf IP-Adressen/URL's und hinterlege dieses Mapping beim IRP.
+  \item Es kann auch auf dem IRP eine Liste der verfügbaren Maschinen/Services hinterlegt werden, welche bei direkter Anwahl angeboten wird.
+  \item Ändert nun die Zuständigkeit eines Servers, kann diese Änderung zentral am IRP vorgenommen werden.
+  \item Das SSL-Cert kann nun zentral beim IRP hinterlegt werden.
+\end{itemize}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.5\textwidth]{29-integration_reverse_proxy-sequence-diagram}
+  \caption{Sequenzdiagramm f\"ur CHAPTER}
+\end{figure}
+\subsection{Implementation}
+Die Implementierung ist die des Protection-Reverse-Proxys, mit folgenden Erweiterungen:
+\begin{itemize}
+  \item Es gibt nur eine URL, welche als Einstiegspunkt dient z.B. 'http://epicnonexistentwebshop.ch/'.
+  \item Die Gruppierten Systeme so konfigurieren, dass sie nur vom Proxy her verfügbar sind.
+  \item Optional: Failover Proxy konfigurieren so, dass dieser bei einem Versagen des Hauptproxys übernehmen kann.
+  \item Optional: Load-Balancing um die Last des Proxys zu verteilen.
+\end{itemize}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Nur der Proxy ist direkt dem Internet und damit potentiellen Angriffen ausgesetzt}
+    \pro{Die Netzwerktopologie der Service-Maschinen ist vom Client verborgen und kann also flexibler gehandhabt werden.}
+    \pro{Failover-Hosts und Load-Balancing sind möglich.}
+    \pro{Eingehende Requests auf die Services können vom Proxy zentral geloggt werden.}
+    \pro{Authentisierung kann auf dem Proxy zentral gelöst werden}
+    \pro{Es muss nur ein Certificat bezahlt werden, welches von einer akzeptierten CA ausgestellt wurde.}
+    \con{Falls auf Failover-Hosts verzichtet wir, ist der Proxy ein Sinlge-Point-of-Failure.}
+    \con{Session handling und Testing sind komplizierter}
+    \con{Bei grossen Systemen mit vielen Requests wird es schwierig all diese mit nur einem Host zu bearbeiten.}
+\end{itemize}
+
