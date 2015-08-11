@@ -1,0 +1,49 @@
+\chapter{Frontdoor}
+
+\section{Context}
+Wir betrachten ein System welches mehrere Web-Applikationen anbietet. Diese Applikationen benötigen alle eine Authentisierung und Autorisierung des Clients. Im Moment verwendet jede Applikation ihr eigenes Authentisierungs-Backend.
+
+\section{Problem}
+Da jede Applikation ihre eigenen Authentisierungsmechanismen verwendet müssen sich die Benutzer immer wieder Anmelden. Wie kann ein ein Single-Sing-On angeboten werden? Eine Lösung muss folgende Anforderungen erfüllen:
+\begin{itemize}
+  \item Jeder Benutzer muss sich nur einmal anmelden
+  \item Jeder Benutzer gibt nur einmal sein Passwort ein
+  \item Es muss aber möglich sein erneute Authentisierung zu erzwingen
+  \item Es muss möglich sein verschieden Mechanismen einzusetzen
+  \item Es muss einfach sein neue Applikationen anzubinden
+  \item Single-Log-Off muss möglich sein
+\end{itemize}
+
+\section{Solution}
+Wir setzen einen FRONTDOOR Server ein, welche die Sitzungsverwaltung übernimmt. Er kommuniziert mit den Applikationen und gibt Benutzer-Autorisierungen an diese weiter. Der FRONTDOOR Server kann auch als PROTECTION REVERSE PROXY eingesetzt werden. Die verschiedenen Benutzerdatenbanken müssen konsolidiert werden, so dass der FRONTDOOR Server die Authentisierung der Benutzer für verchiedene Applikationen übernehmen kann.
+\subsection{Implementation}
+\begin{enumerate}
+  \item Benutzerdaten konsolidieren
+  \item Authentisierungsmechanismen definieren
+  \item Zugriffsberechtigungsschema festlegen
+  \item Benutzer-/Sessionrepresentation gestalten (siehe SECURITY SESSION)
+  \item Implementation der Sessionverfolgung
+  \item Implementation der Speicherung des Session Context (zb. Flat Files oder Datenbank)
+  \item Implementation der Log-In und Portal Seiten
+\end{enumerate}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Single-Sign-On und Single-Log-Off}
+    \pro{Ein einziges Benutzerprofil}
+    \pro{Weniger Aufwand für Zugriffskontrolle in Applikationen}
+    \pro{Zentralisiertes Logging}
+    \con{Mögliche Inkosistenzen}
+    \con{Eine Zentrale Verwaltungsstelle wird benötigt}
+    \con{Unterschiedliche Policies in Applikationen können im Konflikt stehen}
+\end{itemize}
+\section{Known Uses}
+\begin{itemize}
+  \item Itopia's Frontdoor-Lösung für die Telekurs Financial Services (Prof. Peter Sommerlad)
+  \item Ergon Airlock
+  \item USP Secure Entry Server
+  \item AdNovum Nevis (SIX Card Solutions, Postfinance)
+\end{itemize}
+\section{Notes}
+Man kann sich FRONTDOOR als INTEGRATION/PROTECTION REVERSE PROXY mit CHECK POINT und SECURITY SESSION vorstellen woraus sich ein SINGLE ACCESS POINT ergibt.
+
