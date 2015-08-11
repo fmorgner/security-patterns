@@ -3,4 +3,5 @@
 *.pdf
 *.out
 *.pdf_tex
-
+__all__.tex
+*.lock
