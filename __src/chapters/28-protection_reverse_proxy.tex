@@ -1,0 +1,52 @@
+\chapter{Protection Reverse Proxy}
+
+\section{Summary}
+Ein Web- oder Applikationsserver direkt ans Internet anzuschliessen gibt Angreifern direkten Zugriff auf die Schwächen der unterliegenden Plattform (Programme, Webserver, Bibliotheken, Betriebsystem). Um einen sinnvollen Dienst im Internet anzubieten ist der Zugriff jedoch nötig. Eine Packet Filter basierte Firewall schützt vor Angriffe auf dem Neztwerklayer. Zusätzlichen Schutz bietet ein Protection Reverse Proxy der der Ebene des verwendeten Protokolls schützt.
+
+\section{Context}
+Alle Arten von Diensten, die über das Internet oder durch ein anderes, potentiell feindliches Netzwerk angeboten werden. Üblicherweise handelt es sich bei dem Zugriffsprotokoll um HTTP oder HTTPS.
+
+\section{Problem}
+Selbst wenn eine Packet Filter Firewall installiert ist, so können trotzdem Angriffe über die schwächen in der Protokollimplementierung ausgenutzt werden. Wie kann der Webserver vor dem Ausnutzen der Schwächen im Protokoll geschützt werden? Folgendes muss gelöst werden:
+\begin{itemize}
+\item Eine einfache Packet Filter Firewall reicht zum Schutz nicht, da der Zugriff auf das Protokoll bzw. auf den TCP Port angeboten werden muss.
+\item Angriffsszenarien verwenden meist extra angepasste Anfragen, die Bufferüberläufe auslösen. Die meisten Firewalls können keine Attacken mit fehlerhaften Anfragen verhindern.
+\item Das Härten (Absichern) des Webservers ist vielleicht nicht möglich, da er unter umständen nicht komplett unter eigener Kontrolle ist (Propritäre Software oder zu komplexes Setup)
+\item Patches auf dem Webserver zu installieren kann zwar Sicherheitslücken stopfen, allerdings ist es auch möglich, dass dadurch der Betrieb gefährdet ist, wenn Anpassungen nötig sind.
+\item Auf eine andere Webserver-Software zu wechseln ist potentiell teuer, riskant und zeitaufwendig.
+\item Man kann nie wissen, welche Schwachstellen in Zukunft entdeckt werden
+\end{itemize}
+
+\section{Solution}
+Die Netzwerktopologie muss soweit angepasst werden, dass ein Protection Reverse Proxy den Webserver abschirmen kann. Der Reverse Proxy wird so konfiguriert, dass nur gefahrlose Anfragen den richtigen Webserver erreichen. Zwei Packet Filter Firewall stellen sicher, dass kein externer Zugriff direkt auf den Webserver erfolgt. Die resultierende Netzwerktopologie wird durch eine DEMILITARIZED ZONE angeboten, welche nur die Maschine mit dem Reverse Proxy beinhaltet. Der Webserver selbst steht in einer sicheren Zone.
+
+Das Konzept wurde bisher am Beispiel von HTTP aufgezeigt. Es lässt sich aber auch auf andere Protokolle wie FTP, IMAP und SMTP übertragen. Der Protection Reverse Proxy muss dabei an das Protokoll angepasst werden und für gültige Anfragen konfiguriert werden.
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.8\textwidth]{28-protection_reverse_proxy-class-diagram}
+  \caption{Strukturdiagramm f\"ur Protection Reverse Proxy}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=0.6\textwidth]{28-protection_reverse_proxy-sequence-diagram}
+  \caption{Sequenzdiagramm f\"ur Protection Reverse Proxy}
+\end{figure}
+\clearpage
+\subsection{Implementation}
+\begin{enumerate}
+\item Planen der Firewall und Netzwerkkonfiguration, Konfiguration der erlaubten Netzwerk-Ports.
+\item Auswählen einer Reverse Proxy Platform. Beispiel: Apache Webserver mit mod\_rewrite und mod\_proxy. Mehrere andere Anbieter bieten ebenfalls Lösungen an.
+\item Konfiguration des Webservers
+\item Konfiguration des Reverse-Proxys, Erlaubte Zugriffe felstlegen (Blacklist oder Whitelist)
+\end{enumerate}
+
+\section{Consequences}
+\begin{itemize}
+    \pro{Bekannte Schwachstellen auf dem Webserver können schnell geschützt werden ohne den Webserver anzufassen.}
+    \con{Verwendung von Blicklist kann zu falschem Sicherheitsgefühl führen.}
+    \con{Verwendung von Whitelist kann häufiger zu false-positive Blockierungen führen.}
+    \con{Längere Antwortzeiten, da der Reverse-Proxy jeden Zugriff ebenfalls verarbeiten muss.}
+    \con{Verlust von Transparenz.}
+    \con{Zusätzlicher point of failure.}
+\end{itemize}
+
